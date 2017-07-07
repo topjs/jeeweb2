@@ -57,38 +57,11 @@ public class FormDemoController extends BaseController {
 	 */
 	@RequestMapping("/upload")
 	public String upload() {
-		DynamicHibernateStatementBuilder dynamicStatementBuilder = SpringContextHolder.getApplicationContext()
-				.getBean(DynamicHibernateStatementBuilder.class);
-		try {
-			if (dynamicStatementBuilder == null) {
-				dynamicStatementBuilder = new NoneDynamicHibernateStatementBuilder();
-			}
-			dynamicStatementBuilder.init();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("id", "40288ab85ce3c20a015ce3ca6df60000");
-		data.put("id1", "40288ab85ce3c20a015ce3ca6df60000");
-		List<Map<String, Object>> dataList = userService.listByAliasSqlQueryId("sys.two", data);
-		for (Map<String, Object> map : dataList) {
-			System.out.println(map.get("id"));
-		}
 		return display("upload");
 	}
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	
 	@RequestMapping("/combox")
 	public String combox(HttpServletRequest request) {
-		List<Map> dataList = new ArrayList<Map>();
-		for (int i = 0; i < 10; i++) {
-			Map map = new HashMap<String, Object>();
-			map.put("id", i);
-			map.put("name", "jeeweb");
-			dataList.add(map);
-		}
-		request.setAttribute("datas", dataList);
 		return display("combox");
 	}
 

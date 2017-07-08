@@ -1,6 +1,3 @@
- **两天后升级新UI！** 
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0708/020357_cb937079_1394985.png "在这里输入图片标题")
-
 JeeWeb敏捷开发平台
 ===============
 * 	QQ交流群： 570062301
@@ -9,6 +6,9 @@ JeeWeb敏捷开发平台
 * 	项目演示： [https://demo.jeeweb.cn](https://demo.jeeweb.cn)
 *       github地址： [https://github.com/white-cat/jeeweb](https://github.com/white-cat/jeeweb)
 *       Myeclipse非Maven版本快盘下载： [https://pan.baidu.com/s/1hrFKF2k](https://pan.baidu.com/s/1hrFKF2k)
+
+ **两天后升级新UI！** 
+![输入图片说明](https://git.oschina.net/uploads/images/2017/0708/020357_cb937079_1394985.png "在这里输入图片标题")
 
 简介
 -----------------------------------

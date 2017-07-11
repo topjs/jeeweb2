@@ -7,9 +7,6 @@ JeeWeb敏捷开发平台
 *       github地址： [https://github.com/white-cat/jeeweb](https://github.com/white-cat/jeeweb)
 *       Myeclipse非Maven版本快盘下载： [https://pan.baidu.com/s/1hrFKF2k](https://pan.baidu.com/s/1hrFKF2k)
 
- **两天后升级新UI！** 
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0708/020357_cb937079_1394985.png "在这里输入图片标题")
-
 简介
 -----------------------------------
 JeeWeb是一款基于SpringMVC+Spring+Hibernate的敏捷开发系统；它是一款具有代码生成功能的智能快速开发平台；是以Spring Framework为核心容器，Spring MVC为模型视图控制器，Hibernate为数据访问层， Apache Shiro为权限授权层，Ehcahe对常用数据进行缓存，Disruptor作为并发框架，Bootstrap作为前端框架的优秀 **开源** 系统。
@@ -188,17 +185,31 @@ JeeWeb 功能特点
 ```
 系统演示
 -----------------------------------
-###  [1].多套首页风格，支持自定义（Inspinia风格|ACE风格）
-![Inspinia风格](https://git.oschina.net/uploads/images/2017/0630/210146_0479a2c1_1394985.png "Inspinia风格")
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0630/210630_88f71c81_1394985.png "在这里输入图片标题")
-![ACE风格](https://git.oschina.net/uploads/images/2017/0630/210406_46110a2a_1394985.png "ACE风格")
+![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233138_66acc47c_1394985.png "在这里输入图片标题")
 
-###  [2].强大的代码生成功能
-![JeeWeb](https://git.oschina.net/uploads/images/2017/0630/210644_096f8b47_1394985.png "JeeWeb")
-![JeeWeb](https://git.oschina.net/uploads/images/2017/0630/210653_55f01447_1394985.png "JeeWeb题")
-![JeeWeb](https://git.oschina.net/uploads/images/2017/0630/210702_bca112b0_1394985.png "JeeWeb")
+![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233150_79627fa7_1394985.png "在这里输入图片标题")
 
+![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233200_33d385db_1394985.png "在这里输入图片标题")
 
+![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233211_5e7fc693_1394985.png "在这里输入图片标题")
+
+![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233222_8ab40914_1394985.png "在这里输入图片标题")
+
+![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233239_ebb4d8bb_1394985.png "在这里输入图片标题")
+
+![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233252_11c11f7d_1394985.png "在这里输入图片标题")
+
+![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233303_da10ce13_1394985.png "在这里输入图片标题")
+
+![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233314_7bcc9728_1394985.png "在这里输入图片标题")
+
+![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233324_44fbe21c_1394985.png "在这里输入图片标题")
+
+![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233335_358d1208_1394985.png "在这里输入图片标题")
+
+![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233347_79912823_1394985.png "在这里输入图片标题")
+
+![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233356_3b2a0c61_1394985.png "在这里输入图片标题")
 代码示例
 -----------------------------------
 ###  [1].GRID列表

@@ -7,6 +7,9 @@ JeeWeb敏捷开发平台
 *       github地址： [https://github.com/white-cat/jeeweb](https://github.com/white-cat/jeeweb)
 *       Myeclipse非Maven版本快盘下载： [https://pan.baidu.com/s/1hrFKF2k](https://pan.baidu.com/s/1hrFKF2k)
 
+ **两天后升级新UI！** 
+![输入图片说明](https://git.oschina.net/uploads/images/2017/0708/020357_cb937079_1394985.png "在这里输入图片标题")
+
 简介
 -----------------------------------
 JeeWeb是一款基于SpringMVC+Spring+Hibernate的敏捷开发系统；它是一款具有代码生成功能的智能快速开发平台；是以Spring Framework为核心容器，Spring MVC为模型视图控制器，Hibernate为数据访问层， Apache Shiro为权限授权层，Ehcahe对常用数据进行缓存，Disruptor作为并发框架，Bootstrap作为前端框架的优秀 **开源** 系统。

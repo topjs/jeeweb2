@@ -8,10 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import javax.sql.DataSource;
-
-import cn.jeeweb.core.common.dao.impl.CommonDaoImpl;
 import cn.jeeweb.core.utils.PropertiesUtil;
 import cn.jeeweb.core.utils.SpringContextHolder;
 import cn.jeeweb.core.utils.StringUtils;
@@ -20,11 +19,6 @@ import cn.jeeweb.modules.codegen.codegenerator.data.DbTableInfo;
 import cn.jeeweb.modules.codegen.codegenerator.utils.CodeGenUtils;
 import cn.jeeweb.modules.codegen.codegenerator.utils.sql.SqlUtils;
 import cn.jeeweb.modules.codegen.dao.IGeneratorDao;
-import oracle.jdbc.driver.OracleConnection;
-import org.hibernate.HibernateException;
-import org.hibernate.SessionFactory;
-import org.hibernate.internal.SessionFactoryImpl;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.springframework.orm.hibernate4.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 
@@ -32,43 +26,36 @@ import org.springframework.stereotype.Repository;
  * http://blog.csdn.net/linwei_hello/article/details/21639657
  * http://www.cnblogs.com/csuwangwei/archive/2012/01/30/2331737.html
  * http://www.thinksaas.cn/topics/0/195/195191.html 数据库底层操作（还有HIBREATE的映射）
- * 
+ * http://blog.csdn.net/qq383264679/article/details/52460098 备注问题
+ * http://blog.csdn.net/leolu007/article/details/45971053  获得表备注问题
  * @author 白猫
  *
  */
 @SuppressWarnings({ "resource", "unchecked", "rawtypes" })
 @Repository("generatorDao")
-public class GeneratorDaoImpl extends CommonDaoImpl implements IGeneratorDao {
+public class GeneratorDaoImpl implements IGeneratorDao {
 	String properiesName = "dbconfig.properties";
 	PropertiesUtil propertiesUtil = new PropertiesUtil(properiesName);
 
 	@Override
-	public Boolean createTableByXml(String xml) throws HibernateException, SQLException {
-		SessionFactoryImpl sessionFactory = (SessionFactoryImpl) SpringContextHolder.getBean(SessionFactory.class);
-		// 重新构建一个Configuration
-		org.hibernate.cfg.Configuration newconf = new org.hibernate.cfg.Configuration();
-		newconf.addXML(xml).setProperty("hibernate.dialect", sessionFactory.getDialect().getClass().getName());
-
-		SchemaExport dbExport = new SchemaExport(newconf,
-				SessionFactoryUtils.getDataSource(getSession().getSessionFactory()).getConnection());
-		dbExport.execute(true, true, false, true);
-		List<Exception> exceptionList = dbExport.getExceptions();
-		for (Exception exception : exceptionList) {
-			throw new RuntimeException(exception.getMessage());
-		}
-		if (exceptionList.size() > 0) {
-			return false;
-		}
+	public Boolean createTableByXml(String xml) {
+		/*
+		 * SessionFactoryImpl sessionFactory = (SessionFactoryImpl)
+		 * SpringContextHolder.getBean(SessionFactory.class); //
+		 * 重新构建一个Configuration org.hibernate.cfg.Configuration newconf = new
+		 * org.hibernate.cfg.Configuration();
+		 * newconf.addXML(xml).setProperty("hibernate.dialect",
+		 * sessionFactory.getDialect().getClass().getName());
+		 * 
+		 * SchemaExport dbExport = new SchemaExport(newconf,
+		 * SessionFactoryUtils.getDataSource(getSession().getSessionFactory()).
+		 * getConnection()); dbExport.execute(true, true, false, true);
+		 * List<Exception> exceptionList = dbExport.getExceptions(); for
+		 * (Exception exception : exceptionList) { throw new
+		 * RuntimeException(exception.getMessage()); } if (exceptionList.size()
+		 * > 0) { return false; }
+		 */
 		return false;
-	}
-
-	/**
-	 * 获得数据源 直接设置就可以了
-	 * 
-	 * @return
-	 */
-	private DataSource getDataSource() {
-		return SessionFactoryUtils.getDataSource(getSession().getSessionFactory());
 	}
 
 	private Connection getConnection() {
@@ -79,18 +66,24 @@ public class GeneratorDaoImpl extends CommonDaoImpl implements IGeneratorDao {
 			String username = propertiesUtil.getString("connection.username");
 			String password = propertiesUtil.getString("connection.password");
 			String driverClassName = "com.mysql.jdbc.Driver";
+			Properties props = new Properties();
+			if (username != null) {
+				props.put("user", username);
+			}
+			if (password != null) {
+				props.put("password", password);
+			}
 			if (dbType.equals("sqlserver")) {
 				driverClassName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 			} else if (dbType.equals("mysql")) {
 				driverClassName = "com.mysql.jdbc.Driver";
 			} else if (dbType.equals("oracle")) {
 				driverClassName = "oracle.jdbc.driver.OracleDriver";
-			} else {
-				return getDataSource().getConnection();
+				props.put("remarksReporting", "true");
 			}
 			// 初始化JDBC驱动并让驱动加载到jvm中
 			Class.forName(driverClassName);
-			conn = DriverManager.getConnection(url, username, password);
+			conn = DriverManager.getConnection(url, props);
 			conn.setAutoCommit(true);
 			return conn;
 		} catch (SQLException e) {
@@ -114,10 +107,6 @@ public class GeneratorDaoImpl extends CommonDaoImpl implements IGeneratorDao {
 			// 判断是否为MYSQL
 			String driverName = connection.getMetaData().getDriverName().toUpperCase();
 			if (driverName.contains("ORACLE")) {
-				/**
-				 * 设置连接属性,使得可获取到表的REMARK(备注)
-				 */
-				((OracleConnection) connection).setRemarksReporting(true);
 				resultSet = connection.getMetaData().getTables(null, propertiesUtil.getString("connection.username"),
 						null, types);
 			} else {
@@ -172,12 +161,6 @@ public class GeneratorDaoImpl extends CommonDaoImpl implements IGeneratorDao {
 			connection.setAutoCommit(true);
 			// 判断是否为MYSQL
 			String driverName = connection.getMetaData().getDriverName().toUpperCase();
-			if (driverName.contains("ORACLE")) {
-				/**
-				 * 设置连接属性,使得可获取到表的REMARK(备注)
-				 */
-				((OracleConnection) connection).setRemarksReporting(true);
-			}
 			// 获得列的信息
 			resultSet = connection.getMetaData().getColumns(null, null, tableName, null);
 			while (resultSet.next()) {
@@ -263,7 +246,7 @@ public class GeneratorDaoImpl extends CommonDaoImpl implements IGeneratorDao {
 	public void dropTable(String tableName) {
 		String dropSql = SqlUtils.getSqlUtils().getSqlByID("dropTable").getContent();
 		dropSql = dropSql.replaceAll("\\$\\{tablename\\}", tableName);
-		executeSql(dropSql);
+		// executeSql(dropSql);
 	}
 
 	@Override

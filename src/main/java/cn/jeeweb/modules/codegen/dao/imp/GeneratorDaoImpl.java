@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import javax.sql.DataSource;
+
+import cn.jeeweb.core.common.dao.impl.CommonDaoImpl;
 import cn.jeeweb.core.utils.PropertiesUtil;
 import cn.jeeweb.core.utils.SpringContextHolder;
 import cn.jeeweb.core.utils.StringUtils;
@@ -19,6 +21,10 @@ import cn.jeeweb.modules.codegen.codegenerator.data.DbTableInfo;
 import cn.jeeweb.modules.codegen.codegenerator.utils.CodeGenUtils;
 import cn.jeeweb.modules.codegen.codegenerator.utils.sql.SqlUtils;
 import cn.jeeweb.modules.codegen.dao.IGeneratorDao;
+import org.hibernate.HibernateException;
+import org.hibernate.SessionFactory;
+import org.hibernate.internal.SessionFactoryImpl;
+import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.springframework.orm.hibernate4.SessionFactoryUtils;
 import org.springframework.stereotype.Repository;
 
@@ -26,36 +32,43 @@ import org.springframework.stereotype.Repository;
  * http://blog.csdn.net/linwei_hello/article/details/21639657
  * http://www.cnblogs.com/csuwangwei/archive/2012/01/30/2331737.html
  * http://www.thinksaas.cn/topics/0/195/195191.html 数据库底层操作（还有HIBREATE的映射）
- * http://blog.csdn.net/qq383264679/article/details/52460098 备注问题
- * http://blog.csdn.net/leolu007/article/details/45971053  获得表备注问题
+ * 
  * @author 白猫
  *
  */
 @SuppressWarnings({ "resource", "unchecked", "rawtypes" })
 @Repository("generatorDao")
-public class GeneratorDaoImpl implements IGeneratorDao {
+public class GeneratorDaoImpl extends CommonDaoImpl implements IGeneratorDao {
 	String properiesName = "dbconfig.properties";
 	PropertiesUtil propertiesUtil = new PropertiesUtil(properiesName);
 
 	@Override
-	public Boolean createTableByXml(String xml) {
-		/*
-		 * SessionFactoryImpl sessionFactory = (SessionFactoryImpl)
-		 * SpringContextHolder.getBean(SessionFactory.class); //
-		 * 重新构建一个Configuration org.hibernate.cfg.Configuration newconf = new
-		 * org.hibernate.cfg.Configuration();
-		 * newconf.addXML(xml).setProperty("hibernate.dialect",
-		 * sessionFactory.getDialect().getClass().getName());
-		 * 
-		 * SchemaExport dbExport = new SchemaExport(newconf,
-		 * SessionFactoryUtils.getDataSource(getSession().getSessionFactory()).
-		 * getConnection()); dbExport.execute(true, true, false, true);
-		 * List<Exception> exceptionList = dbExport.getExceptions(); for
-		 * (Exception exception : exceptionList) { throw new
-		 * RuntimeException(exception.getMessage()); } if (exceptionList.size()
-		 * > 0) { return false; }
-		 */
+	public Boolean createTableByXml(String xml) throws HibernateException, SQLException {
+		SessionFactoryImpl sessionFactory = (SessionFactoryImpl) SpringContextHolder.getBean(SessionFactory.class);
+		// 重新构建一个Configuration
+		org.hibernate.cfg.Configuration newconf = new org.hibernate.cfg.Configuration();
+		newconf.addXML(xml).setProperty("hibernate.dialect", sessionFactory.getDialect().getClass().getName());
+
+		SchemaExport dbExport = new SchemaExport(newconf,
+				SessionFactoryUtils.getDataSource(getSession().getSessionFactory()).getConnection());
+		dbExport.execute(true, true, false, true);
+		List<Exception> exceptionList = dbExport.getExceptions();
+		for (Exception exception : exceptionList) {
+			throw new RuntimeException(exception.getMessage());
+		}
+		if (exceptionList.size() > 0) {
+			return false;
+		}
 		return false;
+	}
+
+	/**
+	 * 获得数据源 直接设置就可以了
+	 * 
+	 * @return
+	 */
+	private DataSource getDataSource() {
+		return SessionFactoryUtils.getDataSource(getSession().getSessionFactory());
 	}
 
 	private Connection getConnection() {
@@ -80,6 +93,8 @@ public class GeneratorDaoImpl implements IGeneratorDao {
 			} else if (dbType.equals("oracle")) {
 				driverClassName = "oracle.jdbc.driver.OracleDriver";
 				props.put("remarksReporting", "true");
+			} else {
+				return getDataSource().getConnection();
 			}
 			// 初始化JDBC驱动并让驱动加载到jvm中
 			Class.forName(driverClassName);
@@ -107,6 +122,9 @@ public class GeneratorDaoImpl implements IGeneratorDao {
 			// 判断是否为MYSQL
 			String driverName = connection.getMetaData().getDriverName().toUpperCase();
 			if (driverName.contains("ORACLE")) {
+				/**
+				 * 设置连接属性,使得可获取到表的REMARK(备注)
+				 */
 				resultSet = connection.getMetaData().getTables(null, propertiesUtil.getString("connection.username"),
 						null, types);
 			} else {
@@ -246,7 +264,7 @@ public class GeneratorDaoImpl implements IGeneratorDao {
 	public void dropTable(String tableName) {
 		String dropSql = SqlUtils.getSqlUtils().getSqlByID("dropTable").getContent();
 		dropSql = dropSql.replaceAll("\\$\\{tablename\\}", tableName);
-		// executeSql(dropSql);
+		executeSql(dropSql);
 	}
 
 	@Override

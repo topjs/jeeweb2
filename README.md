@@ -1,16 +1,12 @@
 JeeWeb敏捷开发平台
 ===============
-* 	QQ交流群： 570062301
+* 	QQ交流群： 570062301（满）、522959928
 * 	官方网站： [https://www.jeeweb.cn](https://www.jeeweb.cn)
-* 	官方论坛： [http://bbs.jeeweb.cn](http://bbs.jeeweb.cn)
 * 	项目演示： [https://demo.jeeweb.cn](https://demo.jeeweb.cn)
-*       github地址： [https://github.com/white-cat/jeeweb](https://github.com/white-cat/jeeweb)
-*       Mybatis版本： [http://git.oschina.net/dataact/jeeweb-mybatis](http://git.oschina.net/dataact/jeeweb-mybatis)
-*       Myeclipse非Maven版本快盘下载： [https://pan.baidu.com/s/1hrFKF2k](https://pan.baidu.com/s/1hrFKF2k)
 
 简介
 -----------------------------------
-JeeWeb是一款基于SpringMVC+Spring+Hibernate的敏捷开发系统；它是一款具有代码生成功能的智能快速开发平台；是以Spring Framework为核心容器，Spring MVC为模型视图控制器，Hibernate为数据访问层， Apache Shiro为权限授权层，Ehcahe对常用数据进行缓存，Disruptor作为并发框架，Bootstrap作为前端框架的优秀 **开源** 系统。
+JeeWeb是一款基于SpringBoot 2+Spring+Mybatis+Hibernate的敏捷开发系统；它是一款具有代码生成功能的智能快速开发平台；是以Spring Framework为核心容器，Spring MVC为模型视图控制器，Hibernate为数据访问层， Apache Shiro为权限授权层，Ehcahe对常用数据进行缓存，Disruptor作为并发框架，Bootstrap作为前端框架的优秀 **开源** 系统。
 
 JeeWeb是一款 **全开源开发平台** ，特别 **代码生成器模块也采用开源模式** ，各位开发者可以根据自己的需要改造出更加适合自己的代码生成器，不管是做项目、学习、接私活它都将是你的最佳拍档；
 
@@ -22,19 +18,25 @@ JeeWeb的开发方式采用（ **代码生成器快速设计生成代码->手工
 
 JeeWeb 技术特点
 -----------------------------------
-JeeWeb使用目前流程的WEB开发架构技术，如 **SpringMVC, Hibernate,Apache Shiro, Disruptor , ehcache, Jquery ,BootStrap** 等等，支持多种数据库MySQL, Oracle, sqlserver等。  **分层设计：使用分层设计，分为dao，service，Controller，view层，层次清楚，低耦合，高内聚。**  
+JeeWeb使用目前流程的WEB开发架构技术，如 **SpringBoot,Mybatis, Hibernate,Apache Shiro, Disruptor , ehcache, Jquery ,BootStrap** 等等，支持多种数据库MySQL, Oracle, sqlserver等。  **分层设计：使用分层设计，分为dao，service，Controller，view层，层次清楚，低耦合，高内聚。**  
 
 安全考虑：严格遵循了web安全的规范，前后台双重验证，参数编码传输，密码md5加密存储，shiro权限验证，从根本上避免了SQL注入，XSS攻击，CSRF攻击等常见的web攻击手段。
 
 JeeWeb 功能特点
 -----------------------------------
-* 	采用SpringMVC+Spring+Hibernate+Shiro+ Ehcache+Disruptor+Jquery + Boostrap + Ztree等基础前后端架构架构
+* 	SpringBoot+Spring+Mybatis+Hibernate+Shiro+ Ehcache+Disruptor+Jquery + Boostrap + Ztree等基础前后端架构架构
 * 	采用面向声明的开发模式， 基于泛型编写极少代码即可实现复杂的数据展示、数据编辑、表单处理等功能，在不使用代码生成器的情况下，也只需要很少的代码就能实现基础的CURD操作，再配合在线开发与代码生成器的使用，更加加快了开发的进度，将J2EE的开发效率成本提高，可以将代码减少60%以上。
 * 	在线开发(通过在线配置实现一个表模型的增删改查功能，无需一行代码，支持用户自定义表单布局) 
 * 	代码生成器，支持多种数据模型,根据表生成对应的Entity,Service,Dao,Controller,JSP等,增删改查功能生成直接使用
 * 	UI标签开发库，针对前端UI进行标准封装表，页面统一采用UI标签实现功能：数据datagrid,treegrid,FileInput,Editor,GridSelect等，实现JSP页面零JS，开发维护简洁高效
 * 	查询过滤器：只需前端配置，后台动态拼SQL追加查询条件；支持多种匹配方式（全匹配/模糊查询/包含查询/不匹配查询）
 * 	移动平台支持，对Bootstrap(兼容Html5)进行标准封装
+* 	灵活的权限控制，可控制到页面或按钮，满足绝大部分的权限需求,优化权限注解方便权限配置
+* 	完善的XSS防范及脚本过滤，彻底杜绝XSS攻击
+* 	支持分布式部署，session存储在redis中
+* 	友好的代码结构及注释，便于阅读及二次开发
+* 	引入quartz定时任务，可动态完成任务的添加、修改、删除、暂停、恢复及日志查看等功能
+* 	引入swagger文档支持，方便编写API接口文档
 * 	国际化（支持多语言，国际化的封装为多语言做了便捷支持）
 *   多数据源（在线配置数据源，数据源工作类封装）
 * 	数据权限：整合Shiro权限
@@ -47,22 +49,21 @@ JeeWeb 功能特点
 * 	支持数据库: Mysql,Oracle10g,SqlServer等
 * 	基础权限: 用户，角色，菜单权限
 * 	Web容器测试通过的有Jetty和Tomcat,Weblogic
-* 	要求JDK1.7+
+* 	要求JDK1.8+
 
 技术选型
 ===============
 
 1、后端
 
-* 核心框架：Spring Framework
+* 核心框架：Spring boot2.0、Spring Framework
 * 安全框架：Apache Shiro
-* 视图框架：Spring MVC
 * 服务端验证：Hibernate Validator
-* 布局框架：SiteMesh
+* 模板标签：Beetl
 * 任务调度：Quartz
 * 持久层框架：Hibernate 
 * 数据库连接池：Alibaba Druid
-* 缓存框架：Ehcache
+* 缓存框架：Redis、Ehcache
 * 并发框架：Disruptor
 * 日志管理：SLF4J、Log4j
 * 工具类：Apache Commons、Jackson、Xstream、
@@ -82,9 +83,9 @@ JeeWeb 功能特点
 
 简单使用说明
 -----------------------------------
-* 导入sql/jeeweb-mysql-v1.0.sql文件到mysql数据库
-* 导入项目到Eclipse.
-* 修改数据库配置文件dbconfig.properties中的账号密码.
+* 导入jeeweb目录下的，具体模块sql/mysql.sql文件到mysql数据库
+* 导入项目到Idea,(项目目前使用分模块开发，我们建议是用IDEA开发).
+* 修改数据库配置文件application.yml中的账号密码.
 * 启动项目,管理员账号admin/密码123456
 
 技术文档
@@ -93,96 +94,46 @@ JeeWeb 功能特点
 * [JeeWeb 开发手册(完善中...)]
 * [JeeWeb  常见问题贴(完善中...)]
 * [JeeWeb 视频教程(完善中...)]
-* [JeeWeb 官方百度网盘](http://pan.baidu.com/s/1hrFKF2k)
 
 平台目录结构说明
 -----------------------------------
 ```
-├─main
-│  │  
-│  ├─java
-│  │   │
-│  │   └─cn.jeeweb----------------平台主代码
-│  │             │
-│  │             ├─core----------------平台核心模块存放目录
-│  │             │    ├─common----------------项目公用的部分(例如基础controller、dao、service、以及动态SQL/HQL实现)
-│  │             │    │
-│  │             │    ├─disruptor-------------并发框架的实现(短信发送模块、邮件发送模块)
-│  │             │    │
-│  │             │    ├─filter、interceptor---安全过滤器、其他一些公用拦截器
-│  │             │    │
-│  │             │    ├─mapper----------------各种Object到Xml、Object到Json的映射转换类
-│  │             │    │
-│  │             │    ├─model-----------------前段暂时的各种JSON实体
-│  │             │    │
-│  │             │    ├─quartz----------------quartz定时任务实现
-│  │             │    │
-│  │             │    ├─query-----------------前端请求，后端自动组装、以及分页的查询模块
-│  │             │    │
-│  │             │    ├─repository------------持久层相关类
-│  │             │    │
-│  │             │    ├─security--------------安全相关类
-│  │             │    │
-│  │             │    ├─tag-------------------GRID标签、form标签、html组件加载标签等
-│  │             │    │
-│  │             │    └─utils-----------------一些工具类
-│  │             │    
-│  │             └─modules----------------内置功能模块（按照业务模块分类）
-│  │                  ├─charts----------------图表模块
-│  │                  │
-│  │                  └─sys-------------------权限模块
-│  │                     │
-│  │                     ├─controller---控制层
-│  │                     │
-│  │                     ├─entity-------实体层
-│  │                     │
-│  │                     ├─service------服务层
-│  │                     │
-│  │                     ├─security-----安全相关
-│  │                     │
-│  │                     ├─tags----------------标签
-│  │                     │
-│  │                     └─utils-----------------一些工具类
-│  │   
-│  │
-│  ├─resources----------------平台资源文件
-│  │     │
-│  │     ├─ehcache----------------缓存配置目录（ehcache.xml缓存配置文件）
-│  │     │ 
-│  │     ├─i18n-------------------国际化信息所在的文件名文件目录（messages.properties项目国际化、ValidationMessages.propertieshibernate validator验证）
-│  │     │ 
-│  │     ├─mapper----------------一些映射（特别tag/html/中的文件，为html组件加载包）
-│  │     │ 
-│  │     ├─statement-------------动态SQL/HQL(是更灵活的操作SQL/HQL)
-│  │     │ 
-│  │     ├─codegen.properties-----代码生成配置
-│  │     │ 
-│  │     ├─dbconfig.properties----数据库配置
-│  │     │ 
-│  │     ├─jeeweb.properties------项目的一些配置
-│  │     │ 
-│  │     ├─shiro.properties-------shiro配置
-│  │     │ 
-│  │     ├─shiro.properties-------代码生成器的模板文件，以及其他模板存放目录
-│  │     │ 
-│  │     ├─*.properties----------（其他配置，可以查看配置的前缀，对应具体业务的配置,如何:sms.properties短信、email.properties邮件配置）
-│  │     │ 
-│  │     └─spring-*.xml-----------Spring相关文件
-│  │
-│  └─webapp----------------web页面和静态资源存放的目录
-│      │
-│      └─WEB-INF
-│            │
-│            ├─static----------------静态资源目录
-│            │    │
-│            │    ├─ace----------------ace样式JS,CSS文件
-│            │    ├─vendors----------------第三方的JS，css,按照第三方包名单独保存
-│            │    ├─common-----------------系统的公用JS.CSS文件
-│            │    └─modules----------------功能模块CSS,以及JS,按照模板名单独存放
-│            └─webpage----------------视图文件目录
-│                 ├─decorators-------------视图装饰目录
-│                 ├─error------------------系统异常映射相关页面
-│                 └─modules----------------内置核心功能模块视图相关文件（按照模板名单独存放）
+jeeweb
+├─jeeweb-common     公共模块
+│    ├─jeeweb-common-base  公用基础模块
+│    │ 
+│    ├─jeeweb-common-email  邮件基础模块
+│    │ 
+│    ├─jeeweb-common-hibernatemvc  hibernate公用模块
+│    │ 
+│    ├─jeeweb-common-mybatismvc  mybatis公用模块
+│    │ 
+│    ├─jeeweb-common-oss  数据存储公用模块
+│    │ 
+│    ├─jeeweb-common-quartz  quartz公用模块
+│    │ 
+│    ├─jeeweb-common-query  查询封装模块
+│    │ 
+│    ├─jeeweb-common-security  安全公用模块
+│    │ 
+│    ├─jeeweb-common-sms  短信公用模块
+│    │ 
+│    └─jeeweb-common-utils 公用工具模块
+│ 
+├─jeeweb-ui     UI模块
+│    ├─jeeweb-beetl-tag  基于beetl的类似spring form的模板标签
+│    │ 
+│    ├─jeeweb-ui-static  公用静态资源模块
+│    │ 
+│    └─jeeweb-ui-tag  基于静态资源模块的标签
+│       
+├─jeeweb-web  业务模块
+│    ├─jeeweb-admin  后台案例模块
+│    │ 
+│    ├─jeeweb-bbs Jeeweb官方论坛代码模块
+│    │ 
+│    └─jeeweb-generator  代码生成器模块
+│
 ```
 系统演示
 -----------------------------------
@@ -329,3 +280,14 @@ JeeWeb 功能特点
 ![表单](https://git.oschina.net/uploads/images/2017/0630/205612_2d09fd89_1394985.png "表单")
 
 
+升级说明
+-----------------------------------
+* 更改项目为分模块依赖开发。
+* 剥离代码生成器，代码生成器作为单独项目启动、并升级了一些功能。
+* 更改前端模板引擎为Beetl。使前段渲染更快、更友好的前端设计体验
+* 项目更改为Spring boot2.0，降低开发门槛。
+* 引入swagger用于接口管理。
+* 引入redis SESSION管理，方便集群部署。
+* 升级日志功能、分离为登陆日志以及操作日志。
+* 引入quartz定时任务，可动态完成任务的添加、修改、删除、暂停、恢复及日志查看等功能
+* 更好的开发体验。

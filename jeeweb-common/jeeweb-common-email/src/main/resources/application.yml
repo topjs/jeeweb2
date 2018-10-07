@@ -1,0 +1,16 @@
+server:
+    port: 8080
+
+#spring
+spring:
+  mail:
+    host: smtp.exmail.qq.com
+    username: jeeweb@jeeweb.cn
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true

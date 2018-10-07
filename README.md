@@ -166,116 +166,91 @@ jeeweb
 -----------------------------------
 ###  [1].GRID列表
 ```
-<grid:grid id="codegenGrid"  url="${adminPath}/codegen/table/ajaxList">
-    <grid:column label="sys.common.key" hidden="true"   name="id"/>
-    <grid:column label="codegen.table.tabletype"   width="60" name="tableType"   dict="tabletype"  query="true" queryMode="select"  />
-    <grid:column label="codegen.table.table.name"   width="120"  name="tableName"  query="true" />
-	<grid:column label="codegen.table.remarks"  name="remarks" />
-	<grid:column label="codegen.table.sync.database"  width="80" dict="sf" formatterClass="0:label label-danger;1:label label-success" name="syncDatabase" />
-	
-	<grid:column label="sys.common.opt"  name="opt" formatter="button" width="300"/>
-	<grid:button title="sys.common.remove"  groupname="opt" function="rowConfirm" tipMsg="确认要移除该条记录吗？" outclass="btn-warning" innerclass="fa-remove" url="${adminPath}/codegen/table/{id}/remove" />
-	<grid:button groupname="opt" function="delete" tipMsg="确认要删除该条记录,删除会删除对应的表结构，请谨慎操作！" />
-	<grid:button title="codegen.table.sync.database"  groupname="opt" function="rowConfirm"  tipMsg="确认要强制同步数据库吗？同步数据库将删除所有数据重新建表！" outclass="btn-info" innerclass="fa-database"  url="${adminPath}/codegen/table/{id}/syncDatabase" />
-	<grid:toolbar  function="create"  winwidth = "1000px"/>
-	<grid:toolbar  function="update"  winwidth = "1000px"/>
-	<grid:toolbar title="codegen.table.import" icon="fa-database" function="createDialog" url="${adminPath}/codegen/table/importDatabase"  />
-	<grid:toolbar title="codegen.table.gen" icon="fa-file-code-o" function="updateDialog" url="${adminPath}/codegen/table/{id}/generateCode"  />
-	<grid:toolbar title="codegen.table.createmenu" icon="fa-anchor" function="updateDialog" url="${adminPath}/codegen/table/{id}/createMenu"  />
-	
-	<grid:toolbar  function="search"/>
-	<grid:toolbar  function="reset"/>
-</grid:grid>
+<#grid:grid id="onlineGrid"  datatype="local" datas="${onlineSessionList}" sortname="startTimestamp" sortorder="desc">
+    <#grid:column label="sys.common.key" hidden="true"   name="id" width="100"/>
+    <#grid:column label="用户"  name="username"   />
+    <#grid:column label="用户主机IP"  name="host"  />
+    <#grid:column label="系统主机IP"  name="systemHost"  />
+    <#grid:column label="登录时间"  name="startTimestamp" width="140"  queryMode="date" condition="between" />
+    <#grid:column label="最后访问时间"  name="lastAccessTime"  width="140"/>
+    <#grid:column label="状态"  name="status" dict="onlinestatus" />
+    <#grid:column label="User-Agent"  name="userAgent"  />
+    <#grid:column label="用户会话ID"  name="id"  />
+
+    <#grid:toolbar title="强制退出" btnclass="btn-danger" icon="fa-trash-o" function="toolbarSelectConfirm"  url="${adminPath}/sys/online/forceLogout"  tipMsg="您确定要强制退出这些信息么，请谨慎操作！"/>
+</#grid:grid>
 ```
 ![JSP列表图片](https://git.oschina.net/uploads/images/2017/0630/205011_87420e1e_1394985.png "JSP列表图片")
 
 ###  [2].TREEGRID列表
 ```
-<grid:grid id="menuGridId" async="true" treeGrid="true"  expandColumn="name"  sortname="sort" url="${adminPath}/sys/menu/ajaxTreeList">
-	<grid:column label="sys.common.key" hidden="true"   name="id" />
-	<grid:column label="sys.menu.name"  name="name"  query="true" condition="like"/>
-	<grid:column label="sys.menu.url"  name="url"  />
-    <grid:column label="sys.menu.permission"  name="permission"  />
-    <grid:column label="sys.menu.isshow"  name="isshow" dict="sf"/>
-    
-    <grid:column label="sys.common.opt"  name="opt" formatter="button" width="100"/>
-	<grid:button   groupname="opt" function="delete" />
-    
-	<grid:toolbar  function="create"/>
-	<grid:toolbar  function="update"/>
-	<grid:toolbar  function="delete"/>
-	<grid:toolbar  function="search"/>
-	<grid:toolbar  function="reset"/>
-</grid:grid>
+<#grid:grid id="organizationGrid" async="true" treeGrid="true" expandColumn="name"   url="${adminPath}/sys/organization/ajaxTreeList">
+	<#grid:column label="sys.common.key" hidden="true"   name="id" width="100"/>
+	<#grid:column label="sys.organization.name" name="name"  query="true" condition="like"   />
+	<#grid:column label="sys.organization.remarks"  name="remarks"  />
+	<#grid:column label="sys.common.opt"  name="opt" formatter="button" width="100"/>
+	<#grid:button  groupname="opt" function="delete" />
+
+	<#grid:toolbar  function="add"/>
+	<#grid:toolbar  function="update"/>
+	<#grid:toolbar  function="delete"/>
+	<#grid:toolbar  function="search"/>
+	<#grid:toolbar  function="reset"/>
+</#grid:grid>
 ```
 ![TREEGRID](https://git.oschina.net/uploads/images/2017/0630/205353_af457e21_1394985.png "TREEGRID")
 ###  [3].表单代码
 ```
-<form:form id="userForm" modelAttribute="data" method="post" class="form-horizontal">
-		<form:hidden path="id"/>
-		<table  class="table table-bordered  table-condensed dataTables-example dataTable no-footer">
-		   <tbody>
-		       <tr>
-		         <td  class="width-15 active text-right">	<label><font color="red">*</font>用户名:</label></td>
-		         <td  class="width-35" >
-		             <form:input path="username" class="form-control" ajaxurl="${adminPath}/sys/user/validate"  validErrorMsg="用户名重复"  htmlEscape="false"  datatype="*"  nullmsg="请输入用户名！"/>
-		             <label class="Validform_checktip"></label>
-		         </td>
-		          <td  class="width-15 active text-right">	
-		              <label><font color="red">*</font>姓名:</label>
-		         </td>
-		         <td class="width-35" >
-		             <form:input path="realname" class="form-control " datatype="*" nullmsg="请输入姓名！" validErrorMsg="用户名重复" htmlEscape="false" />
-		             <label class="Validform_checktip"></label>
-		         </td>
-		      </tr>
-		      <tr>
-		         <td  class="width-15 active text-right">	
-		              <label><font color="red">*</font>邮箱:</label>
-		         </td>
-		         <td class="width-35" >
-		             <form:input path="email" class="form-control" ajaxurl="${adminPath}/sys/user/validate"   datatype="e" nullmsg="请输入邮箱！"  htmlEscape="false" />
-		             <label class="Validform_checktip"></label>
-		         </td>
-		         <td  class="width-15 active text-right">	
-		           	 <label><font color="red">*</font>联系电话:</label>
-		         </td>
-		         <td  class="width-35" >
-		             <form:input path="phone" class="form-control" ajaxurl="${adminPath}/sys/user/validate"  htmlEscape="false"  datatype="m"  nullmsg="请输入用户名！"/>
-		             <label class="Validform_checktip"></label>
-		         </td>
-		      </tr>
-		      <tr>
-		         <td  class="width-15 active text-right">	
-		              <label><font color="red">*</font>密码:</label>
-		         </td>
-		         <td class="width-35" >
-		             <input type="password" value="" name="password"  class="form-control" datatype="*6-16" nullmsg="请设置密码！" errormsg="密码范围在6~16位之间！" />
-		             <label class="Validform_checktip"></label>
-		         </td>
-		         <td  class="width-15 active text-right">	<label><font color="red">*</font>确认密码:</label></td>
-		         <td  class="width-35" >
-		             <input type="password" value="" name="userpassword2" class="form-control" datatype="*" recheck="password" nullmsg="请再输入一次密码！" errormsg="您两次输入的账号密码不一致！" />
-		             <label class="Validform_checktip"></label>
-		         </td>
-		      </tr>
-		      <tr>
-		         <td class="active"><label class="pull-right"><font color="red">*</font>用户角色:</label></td>
-		         <td>
-		         	<form:checkboxes path="roleIdList" nested="false" items="${allRoles}" itemLabel="name" itemValue="id" htmlEscape="false" cssClass="i-checks required"/>
-		          
-		         </td>
-		      </tr>
-		      <tr>
-				<td class="width-15 active"><label class="pull-right">组织机构:</label></td>
-				<td colspan="3">
-				   <form:treeselect title="请选择组织机构" path="organizationIds"  nested="false"  dataUrl="${adminPath}/sys/organization/treeData" labelName="parentname" labelValue="${organizationNames}" multiselect="true" />	   
-				</td>
-		      </tr>
-		     
-		   </tbody>
-		   </table>   
-	</form:form>
+<% layout('/layouts/form.html', {title: @MessageUtils.getMessage('sys.user.updateuser',''), formId: 'userForm', bodyClass: 'white-bg', libs: 'bootstrap-fileinput'}){ %>
+<#form:form id="userForm" modelAttribute="data" method="post" class="form-horizontal">
+  <#form:hidden path="id" />
+  <table class="table table-bordered  table-condensed dataTables-example dataTable no-footer">
+    <tbody>
+    <tr>
+      <td class="width-15 active text-right">
+        <label>用户名:</label></td>
+      <td class="width-35">${data.username}</td>
+      <td class="width-15 active text-right">
+        <label>
+          <font color="red">*</font>姓名:</label></td>
+      <td class="width-35">
+        <#form:input path="realname" class="form-control " datatype="*" nullmsg="请输入姓名！" htmlEscape="false" />
+        <label class="Validform_checktip"></label>
+      </td>
+    </tr>
+    <tr>
+      <td class="width-15 active text-right">
+        <label>
+          <font color="red">*</font>邮箱:</label></td>
+      <td class="width-35">
+        <#form:input path="email" class="form-control" datatype="e" nullmsg="请输入姓名！" htmlEscape="false" />
+        <label class="Validform_checktip"></label>
+      </td>
+      <td class="width-15 active text-right">
+        <label>
+          <font color="red">*</font>联系电话:</label></td>
+      <td class="width-35">
+        <#form:input path="phone" class="form-control" htmlEscape="false" datatype="m" nullmsg="请输入用户名！" />
+        <label class="Validform_checktip"></label>
+      </td>
+    </tr>
+    <tr>
+      <td class="active">
+        <label class="pull-right">
+          <font color="red">*</font>用户角色:</label></td>
+      <td colspan="3">
+        <#form:checkboxes path="roleIdList" nested="false" items="${allRoles}" defaultValue="${roleIdList}" itemLabel="name" itemValue="id" htmlEscape="false" cssClass="i-checks required" /></td>
+    </tr>
+    <tr>
+      <td class="width-15 active">
+        <label class="pull-right">组织机构:</label></td>
+      <td colspan="3">
+        <#form:treeselect title="请选择组织机构" path="organizationIds" nested="false" dataUrl="${adminPath}/sys/organization/treeData"  chkboxType="" labelName="parentname" labelValue="${organizationNames}" multiselect="true" /></td>
+    </tr>
+    </tbody>
+  </table>
+</#form:form>
+<% } %>
 ```
 ![表单](https://git.oschina.net/uploads/images/2017/0630/205612_2d09fd89_1394985.png "表单")
 

@@ -4,14 +4,12 @@ import cn.jeeweb.common.http.PageResponse;
 import cn.jeeweb.common.http.Response;
 import cn.jeeweb.common.mvc.annotation.ViewPrefix;
 import cn.jeeweb.common.mvc.controller.BaseBeanController;
-import cn.jeeweb.common.mybatis.mvc.controller.BaseCRUDController;
 import cn.jeeweb.common.mybatis.mvc.wrapper.EntityWrapper;
 import cn.jeeweb.common.query.data.PropertyPreFilterable;
 import cn.jeeweb.common.query.data.Queryable;
 import cn.jeeweb.common.query.utils.QueryableConvertUtils;
 import cn.jeeweb.common.utils.CacheUtils;
 import cn.jeeweb.common.utils.ObjectUtils;
-import cn.jeeweb.common.utils.ServletUtils;
 import cn.jeeweb.common.utils.StringUtils;
 import cn.jeeweb.common.utils.mapper.JsonMapper;
 import cn.jeeweb.generator.common.data.DbTableInfo;
@@ -23,7 +21,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializeFilter;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -85,7 +82,7 @@ public class TableController extends BaseBeanController<Table> {
      *
      * @param request
      * @param response
-     * @throws java.io.IOException
+     * @throws IOException
      */
     @RequestMapping(value = "ajaxList", method = { RequestMethod.GET, RequestMethod.POST })
     public void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
@@ -186,7 +183,7 @@ public class TableController extends BaseBeanController<Table> {
 
     @PostMapping("batch/delete")
     public Response batchDelete(@RequestParam("ids") String[] ids) {
-        List<String> idList = java.util.Arrays.asList(ids);
+        List<String> idList = Arrays.asList(ids);
         tableService.deleteBatchIds(idList);
         return Response.ok("删除成功");
     }
@@ -234,12 +231,12 @@ public class TableController extends BaseBeanController<Table> {
         return Boolean.FALSE;
     }
 
-    @RequestMapping(value = "{id}/generateCode", method = RequestMethod.GET)
-    public String generateCode(@PathVariable("id") String id, Model model, HttpServletRequest request,
+    @GetMapping(value = "{id}/generateCode")
+    public ModelAndView generateCode(@PathVariable("id") String id, Model model, HttpServletRequest request,
                                HttpServletResponse response) {
         Table table = tableService.selectById(id);
         if (!table.getSyncDatabase()) {
-            return display("un_sync_database");
+            return displayModelAndView("un_sync_database");
         }
         //获得模版方案列表
         List<TemplateScheme> templateSchemes=templateSchemeService.selectList(new EntityWrapper<TemplateScheme>(TemplateScheme.class));
@@ -265,7 +262,7 @@ public class TableController extends BaseBeanController<Table> {
         //模版列表
         List<Template> templates= templateService.selectList(new EntityWrapper<Template>(Template.class).eq("scheme_id",templateSchemeId));
         for (Template template: templates ) {
-            Template templateCache = (Template)CacheUtils.get(template.getId());
+            Template templateCache = (Template) CacheUtils.get(template.getId());
             if (templateCache != null) {
                 template.setTargetPackage(templateCache.getTargetPackage());
                 template.setTargetPath(templateCache.getTargetPath());
@@ -274,7 +271,7 @@ public class TableController extends BaseBeanController<Table> {
         request.setAttribute("templates",templates);
         request.setAttribute("scheme", scheme);
         request.setAttribute("tableid", id);
-        return display("generate_code");
+        return displayModelAndView("generate_code");
     }
 
     @PostMapping(value = "generateCode")
@@ -320,13 +317,13 @@ public class TableController extends BaseBeanController<Table> {
     }
 
     @GetMapping(value = "/importDatabase")
-    public String importDatabase(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView importDatabase(HttpServletRequest request, HttpServletResponse response) {
         String sourceid=request.getParameter("sourceid");
         // 查询表明
         List<DbTableInfo> dbTableInfos = tableService.getTableNameList(sourceid);
         request.setAttribute("dbTableInfos", dbTableInfos);
         request.setAttribute("data", new Table());
-        return display("import_database");
+        return displayModelAndView("import_database");
     }
 
     @PostMapping(value = "/importDatabase")

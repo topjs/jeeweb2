@@ -152,9 +152,9 @@ oss:
    #阿里云api的内或外网域名
    endpoint: oss-cn-beijing.aliyuncs.com
    #阿里云api的密钥access key id
-   access-key-id: LTAI2Yt5bXGCQf6k
+   access-key-id:
    #阿里云api的密钥access key secret
-   access-key-secret: C6Y8xAFaZdPa9KQphnWnJSgckd8lq5
+   access-key-secret:
    #阿里云api的bucket名称
    bucket-name: jeewebbbs
    #外部访问域名
@@ -167,9 +167,9 @@ sms:
  sign-name: JeeWeb
  aliyun:
    #阿里云api的密钥access key id
-   access-key-id: LTAI2Yt5bXGCQf6k
+   access-key-id:
    #阿里云api的密钥access key secret
-   access-key-secret: C6Y8xAFaZdPa9KQphnWnJSgckd8lq5
+   access-key-secret:
 
 #定时任务配置
 quartz:

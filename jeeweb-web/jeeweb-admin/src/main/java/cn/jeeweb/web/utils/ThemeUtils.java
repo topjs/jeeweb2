@@ -41,12 +41,14 @@ public class ThemeUtils {
         }
         // cookies配置中的模版
         Cookie[] cookies = ServletUtils.getRequest().getCookies();
-        for (Cookie cookie : cookies) {
-            if (cookie == null || StringUtils.isEmpty(cookie.getName())) {
-                continue;
-            }
-            if (cookie.getName().equalsIgnoreCase("theme")) {
-                theme = cookie.getValue();
+        if (cookies!=null) {
+            for (Cookie cookie : cookies) {
+                if (cookie == null || StringUtils.isEmpty(cookie.getName())) {
+                    continue;
+                }
+                if (cookie.getName().equalsIgnoreCase("theme")) {
+                    theme = cookie.getValue();
+                }
             }
         }
         return theme;

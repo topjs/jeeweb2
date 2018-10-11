@@ -17,13 +17,13 @@
     <#grid:column label="创建时间"  name="createTime" />
     <#grid:toolbar  function="add"/>
     <#grid:toolbar  function="update" />
-    <#grid:toolbar icon="fa-refresh" title="刷新任务" onclick="refreshTask()" />
+    <#grid:toolbar icon="fa-refresh" title="刷新任务" onclick="refreshJob()" />
     <#grid:toolbar  function="delete" />
     <#grid:toolbar  function="search"  />
     <#grid:toolbar  function="reset" />
 </#grid:grid>
 <script>
-    function refreshTask() {
+    function refreshJob() {
         swal({
             title: "提示",
             text: "您确定刷新任务，会清空以前的任务！",
@@ -35,7 +35,7 @@
             cancelButtonText: "取消",
         }, function () {
             $.ajax({
-                url : '${adminPath}/task/schedule/job/refreshTask',
+                url : '${adminPath}/task/schedule/job/refreshJob',
                 type : 'post',
                 cache : false,
                 success : function(d) {

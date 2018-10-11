@@ -1,9 +1,5 @@
 package cn.jeeweb.web.modules.task.controller;
 
-import cn.jeeweb.web.aspectj.annotation.Log;
-import cn.jeeweb.web.aspectj.enums.LogType;
-import cn.jeeweb.web.modules.task.entity.ScheduleJob;
-import cn.jeeweb.web.modules.task.service.IScheduleJobService;
 import cn.jeeweb.common.http.PageResponse;
 import cn.jeeweb.common.http.Response;
 import cn.jeeweb.common.mvc.annotation.ViewPrefix;
@@ -15,9 +11,16 @@ import cn.jeeweb.common.query.data.Queryable;
 import cn.jeeweb.common.query.utils.QueryableConvertUtils;
 import cn.jeeweb.common.security.shiro.authz.annotation.RequiresMethodPermissions;
 import cn.jeeweb.common.security.shiro.authz.annotation.RequiresPathPermission;
+import cn.jeeweb.common.utils.BeanUtils;
+import cn.jeeweb.common.utils.ObjectUtils;
 import cn.jeeweb.common.utils.StringUtils;
+import cn.jeeweb.web.aspectj.annotation.Log;
+import cn.jeeweb.web.aspectj.enums.LogType;
+import cn.jeeweb.web.modules.task.entity.ScheduleJob;
+import cn.jeeweb.web.modules.task.service.IScheduleJobService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializeFilter;
+import org.quartz.CronExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -59,7 +62,7 @@ public class ScheduleJobController extends BaseBeanController<ScheduleJob> {
 	@Log(logType = LogType.SELECT)
 	@RequiresMethodPermissions("list")
 	public void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
-						  HttpServletResponse response) throws IOException {
+                         HttpServletResponse response) throws IOException {
 		EntityWrapper<ScheduleJob> entityWrapper = new EntityWrapper<>(entityClass);
 		propertyPreFilterable.addQueryProperty("id");
 		// 预处理
@@ -80,7 +83,7 @@ public class ScheduleJobController extends BaseBeanController<ScheduleJob> {
 	@Log(logType = LogType.INSERT)
 	@RequiresMethodPermissions("add")
 	public Response add(ScheduleJob entity, BindingResult result,
-						   HttpServletRequest request, HttpServletResponse response) {
+                        HttpServletRequest request, HttpServletResponse response) {
 		// 验证错误
 		this.checkError(entity,result);
 		scheduleJobService.insert(entity);
@@ -99,7 +102,7 @@ public class ScheduleJobController extends BaseBeanController<ScheduleJob> {
 	@Log(logType = LogType.UPDATE)
 	@RequiresMethodPermissions("update")
 	public Response update(ScheduleJob entity, BindingResult result,
-						   HttpServletRequest request, HttpServletResponse response) {
+                           HttpServletRequest request, HttpServletResponse response) {
 		// 验证错误
 		this.checkError(entity,result);
 		scheduleJobService.insertOrUpdate(entity);
@@ -114,6 +117,27 @@ public class ScheduleJobController extends BaseBeanController<ScheduleJob> {
 		return Response.ok("删除成功");
 	}
 
+	@PostMapping(value = "/saveScheduleJob")
+	public Response saveScheduleJob(ScheduleJob scheduleJob, HttpServletRequest request, HttpServletResponse response) {
+		if (!CronExpression.isValidExpression(scheduleJob.getCronExpression())) {
+			return Response.error("cron表达式格式不对");
+		}
+		try {
+			if (ObjectUtils.isNullOrEmpty(scheduleJob.getId())) {
+				scheduleJobService.insert(scheduleJob);
+			} else {
+				// FORM NULL不更新
+				ScheduleJob oldEntity = scheduleJobService.selectById(scheduleJob.getId());
+				BeanUtils.copyProperties(scheduleJob,oldEntity);
+				scheduleJobService.insertOrUpdate(oldEntity);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.error("保存失败"+e.getMessage());
+		}
+		return Response.ok("保存成功");
+	}
+
 	@PostMapping("batch/delete")
 	@Log(logType = LogType.DELETE)
 	@RequiresMethodPermissions("delete")
@@ -121,5 +145,55 @@ public class ScheduleJobController extends BaseBeanController<ScheduleJob> {
 		List<String> idList = java.util.Arrays.asList(ids);
 		scheduleJobService.deleteBatchIds(idList);
 		return Response.ok("删除成功");
+	}
+
+	@PostMapping(value = "/changeJobStatus")
+	@Log(logType = LogType.OTHER,title = "任务状态")
+	@RequiresMethodPermissions("change:job:status")
+	public Response changeJobStatus(ScheduleJob scheduleJob, HttpServletRequest request,
+                                    HttpServletResponse response) {
+		String cmd = request.getParameter("cmd");
+		String label = "停止";
+		if (cmd.equals("start")) {
+			label = "启动";
+		} else {
+			label = "停止";
+		}
+		try {
+			scheduleJobService.changeStatus(scheduleJob.getId(), cmd);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.error("任务" + label + "失败" + e.getMessage());
+		}
+		return 	Response.ok("任务" + label + "成功");
+	}
+
+	@PostMapping(value = "/updateCron")
+	@Log(logType = LogType.OTHER,title = "任务更新")
+	@RequiresMethodPermissions("update:cron")
+	public Response updateCron(ScheduleJob scheduleJob) {
+		scheduleJobService.updateCron(scheduleJob.getId());
+		return Response.ok("任务更新成功");
+	}
+
+	@PostMapping(value = "/runAJobNow")
+	@Log(logType = LogType.OTHER,title = "执行一次")
+	@RequiresMethodPermissions("run:ajob:now")
+	public Response runAJobNow(ScheduleJob scheduleJob, HttpServletRequest request,
+                               HttpServletResponse response) {
+	    scheduleJobService.runAJobNow(scheduleJob.getId());
+		return Response.ok("任务启动成功");
+	}
+
+	/**
+	 * 刷新任务
+	 * @return
+	 */
+	@PostMapping(value = "/refreshJob")
+	@Log(logType = LogType.OTHER,title = "刷新任务")
+	@RequiresMethodPermissions("refresh:job")
+	public Response refreshJob() {
+		scheduleJobService.refreshTask();
+		return Response.ok("刷新任务成功");
 	}
 }

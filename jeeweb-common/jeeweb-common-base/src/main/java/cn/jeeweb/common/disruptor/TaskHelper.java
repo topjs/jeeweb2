@@ -1,5 +1,6 @@
 package cn.jeeweb.common.disruptor;
 
+import com.lmax.disruptor.BlockingWaitStrategy;
 import com.lmax.disruptor.IgnoreExceptionHandler;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.YieldingWaitStrategy;
@@ -43,7 +44,7 @@ public class TaskHelper {
 		// Construct the Disruptor
 		// 单线程模式，获取额外的性能
 		disruptor = new Disruptor<TaskEvent>(factory, bufferSize, executor, ProducerType.SINGLE,
-				new YieldingWaitStrategy());
+				new BlockingWaitStrategy());
 		List<TaskHandler> TaskHandlers = new ArrayList<>();
 		for (int i = 0; i < handlerCount; i++) {
 			TaskHandlers.add(new TaskHandler());

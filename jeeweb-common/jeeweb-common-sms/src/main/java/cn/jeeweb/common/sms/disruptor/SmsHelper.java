@@ -3,6 +3,7 @@ package cn.jeeweb.common.sms.disruptor;
 import cn.jeeweb.common.sms.client.ISmsClient;
 import cn.jeeweb.common.sms.config.SmsConfigProperties;
 import cn.jeeweb.common.sms.data.SmsResult;
+import com.lmax.disruptor.BlockingWaitStrategy;
 import com.lmax.disruptor.IgnoreExceptionHandler;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.YieldingWaitStrategy;
@@ -54,7 +55,7 @@ public class SmsHelper {
 		// Construct the Disruptor
 		// 单线程模式，获取额外的性能
 		disruptor = new Disruptor<SmsEvent>(factory, bufferSize, executor, ProducerType.SINGLE,
-				new YieldingWaitStrategy());
+				new BlockingWaitStrategy());
 		List<SmsHandler> smsHandlers = new ArrayList<SmsHandler>();
 		for (int i = 0; i < handlerCount; i++) {
 			smsHandlers.add(new SmsHandler(smsClient, smsDao));

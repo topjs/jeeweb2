@@ -2,8 +2,9 @@ package cn.jeeweb.web.modules.sms.controller;
 
 import cn.jeeweb.web.aspectj.annotation.Log;
 import cn.jeeweb.web.aspectj.enums.LogType;
-import cn.jeeweb.web.modules.sms.entity.SmsTemplate;
+import cn.jeeweb.web.common.bean.ResponseError;
 import cn.jeeweb.web.modules.sms.service.ISmsTemplateService;
+import cn.jeeweb.web.modules.sms.entity.SmsTemplate;
 import cn.jeeweb.common.http.PageResponse;
 import cn.jeeweb.common.http.Response;
 import cn.jeeweb.common.mvc.annotation.ViewPrefix;
@@ -18,6 +19,7 @@ import cn.jeeweb.common.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.common.utils.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializeFilter;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -70,7 +72,7 @@ public class SmsTemplateController extends BaseBeanController<SmsTemplate> {
     @PageableDefaults(sort = "id=desc")
     @Log(logType = LogType.SELECT)
     public void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
-                          HttpServletResponse response) throws IOException {
+                         HttpServletResponse response) throws IOException {
         EntityWrapper<SmsTemplate> entityWrapper = new EntityWrapper<>(entityClass);
         propertyPreFilterable.addQueryProperty("id");
         // 预处理
@@ -91,10 +93,12 @@ public class SmsTemplateController extends BaseBeanController<SmsTemplate> {
     @Log(logType = LogType.INSERT)
     @RequiresMethodPermissions("add")
     public Response add(SmsTemplate entity, BindingResult result,
-                           HttpServletRequest request, HttpServletResponse response) {
+                        HttpServletRequest request, HttpServletResponse response) {
         // 验证错误
         this.checkError(entity,result);
-        smsTemplateService.insertOrUpdate(entity);
+        String templateCode = StringUtils.randomString(10);
+        entity.setCode(templateCode);
+        smsTemplateService.insert(entity);
         return Response.ok("添加成功");
     }
 
@@ -102,6 +106,7 @@ public class SmsTemplateController extends BaseBeanController<SmsTemplate> {
     public ModelAndView update(@PathVariable("id") String id, Model model, HttpServletRequest request,
                                HttpServletResponse response) {
         SmsTemplate entity = smsTemplateService.selectById(id);
+        entity.setTemplateContent(StringEscapeUtils.unescapeHtml4(entity.getTemplateContent()));
         model.addAttribute("data", entity);
         return displayModelAndView ("edit");
     }
@@ -110,7 +115,7 @@ public class SmsTemplateController extends BaseBeanController<SmsTemplate> {
     @Log(logType = LogType.UPDATE)
     @RequiresMethodPermissions("update")
     public Response update(SmsTemplate entity, BindingResult result,
-                                 HttpServletRequest request, HttpServletResponse response) {
+                           HttpServletRequest request, HttpServletResponse response) {
         // 验证错误
         this.checkError(entity,result);
         smsTemplateService.insertOrUpdate(entity);

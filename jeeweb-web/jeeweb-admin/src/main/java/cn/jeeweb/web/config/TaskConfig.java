@@ -21,7 +21,7 @@ public class TaskConfig {
     @Bean
     public TaskHelper taskHelper(){
         TaskHelper taskHelper=  new TaskHelper();
-        taskHelper.setHandlerCount(3);
+        taskHelper.setHandlerCount(1);
         taskHelper.setBufferSize(1024);
         return taskHelper;
     }

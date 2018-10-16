@@ -7,6 +7,8 @@ spring:
     static-locations: file:${oss.local.upload-file-path}
   session:
      store-type: none
+  mvc:
+     throw-exception-if-no-handler-found: true
   devtools:
     restart:
       enabled: true        #这里是为了热部署的，与mybatis是无关的

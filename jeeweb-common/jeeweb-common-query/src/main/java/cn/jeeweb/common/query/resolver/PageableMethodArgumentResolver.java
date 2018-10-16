@@ -216,7 +216,7 @@ public class PageableMethodArgumentResolver extends BaseMethodArgumentResolver {
 			}
 			Collections.sort(orderedSortList);
 			for (OrderedSort orderedSort : orderedSortList) {
-				Sort newSort = new Sort(Sort.Direction.DESC, orderedSort.property);
+				Sort newSort = new Sort(orderedSort.direction, orderedSort.property);
 				if (sort == null) {
 					sort = newSort;
 				} else {

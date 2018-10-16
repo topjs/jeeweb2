@@ -19,6 +19,7 @@ import cn.jeeweb.common.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.common.utils.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializeFilter;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -95,13 +96,19 @@ public class EmailTemplateController extends BaseBeanController<EmailTemplate> {
     @RequiresMethodPermissions("add")
     public Response add(EmailTemplate entity, BindingResult result,
                            HttpServletRequest request, HttpServletResponse response) {
-        return doSave(entity, request, response, result);
+        // 验证错误
+        this.checkError(entity,result);
+        String templateCode = StringUtils.randomString(10);
+        entity.setCode(templateCode);
+        emailTemplateService.insert(entity);
+        return Response.ok("添加成功");
     }
 
     @GetMapping(value = "{id}/update")
     public ModelAndView update(@PathVariable("id") String id, Model model, HttpServletRequest request,
                                HttpServletResponse response) {
         EmailTemplate entity = emailTemplateService.selectById(id);
+        entity.setTemplateContent(StringEscapeUtils.unescapeHtml4(entity.getTemplateContent()));
         model.addAttribute("data", entity);
         return displayModelAndView ("edit");
     }
@@ -112,39 +119,15 @@ public class EmailTemplateController extends BaseBeanController<EmailTemplate> {
     @Log(logType = LogType.UPDATE)
     public Response update(EmailTemplate entity, BindingResult result,
                                  HttpServletRequest request, HttpServletResponse response) {
-        return doSave(entity, request, response, result);
-    }
-
-    @PostMapping("/save")
-    public Response doSave(EmailTemplate entity, HttpServletRequest request, HttpServletResponse response,
-                                 BindingResult result) {
-        if (hasError(entity, result)) {
-            // 错误提示
-            String errorMsg = errorMsg(result);
-            if (!StringUtils.isEmpty(errorMsg)) {
-                return Response.error(ResponseError.NORMAL_ERROR,errorMsg);
-            } else {
-                return Response.error(ResponseError.NORMAL_ERROR,"保存失败");
-            }
-        }
-        try {
-            if (StringUtils.isEmpty(entity.getId())) {
-                String templateCode = StringUtils.randomString(10);
-                entity.setCode(templateCode);
-                emailTemplateService.insert(entity);
-            } else {
-                emailTemplateService.insertOrUpdate(entity);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Response.error(ResponseError.NORMAL_ERROR,"保存失败!<br />原因:" + e.getMessage());
-        }
-        return Response.ok("保存成功");
+        // 验证错误
+        this.checkError(entity,result);
+        emailTemplateService.insertOrUpdate(entity);
+        return Response.ok("更新成功");
     }
 
     @PostMapping("{id}/delete")
     @Log(logType = LogType.DELETE)
-    @RequiresPermissions("delete")
+    @RequiresMethodPermissions("delete")
     public Response delete(@PathVariable("id") String id) {
         emailTemplateService.deleteById(id);
         return Response.ok("删除成功");
@@ -152,7 +135,7 @@ public class EmailTemplateController extends BaseBeanController<EmailTemplate> {
 
     @PostMapping("batch/delete")
     @Log(logType = LogType.DELETE)
-    @RequiresPermissions("delete")
+    @RequiresMethodPermissions("delete")
     public Response batchDelete(@RequestParam("ids") String[] ids) {
         List<String> idList = java.util.Arrays.asList(ids);
         emailTemplateService.deleteBatchIds(idList);

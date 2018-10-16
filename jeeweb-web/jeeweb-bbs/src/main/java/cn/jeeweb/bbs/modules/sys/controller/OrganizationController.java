@@ -2,9 +2,6 @@ package cn.jeeweb.bbs.modules.sys.controller;
 
 import cn.jeeweb.bbs.aspectj.annotation.Log;
 import cn.jeeweb.bbs.aspectj.enums.LogType;
-import cn.jeeweb.bbs.common.bean.ResponseError;
-import cn.jeeweb.bbs.modules.posts.entity.PostsColumn;
-import cn.jeeweb.bbs.modules.sys.data.SysDatabaseEnum;
 import cn.jeeweb.bbs.modules.sys.service.IOrganizationService;
 import cn.jeeweb.bbs.modules.sys.entity.Organization;
 import cn.jeeweb.common.http.PageResponse;
@@ -27,7 +24,6 @@ import cn.jeeweb.common.utils.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController

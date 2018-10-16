@@ -1,5 +1,7 @@
 package cn.jeeweb.bbs.modules.task.controller;
 
+import cn.jeeweb.common.utils.BeanUtils;
+import cn.jeeweb.common.utils.ObjectUtils;
 import cn.jeeweb.bbs.aspectj.annotation.Log;
 import cn.jeeweb.bbs.aspectj.enums.LogType;
 import cn.jeeweb.bbs.modules.task.entity.ScheduleJob;
@@ -15,8 +17,6 @@ import cn.jeeweb.common.query.data.Queryable;
 import cn.jeeweb.common.query.utils.QueryableConvertUtils;
 import cn.jeeweb.common.security.shiro.authz.annotation.RequiresMethodPermissions;
 import cn.jeeweb.common.security.shiro.authz.annotation.RequiresPathPermission;
-import cn.jeeweb.common.utils.BeanUtils;
-import cn.jeeweb.common.utils.ObjectUtils;
 import cn.jeeweb.common.utils.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializeFilter;
@@ -26,7 +26,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -62,7 +61,7 @@ public class ScheduleJobController extends BaseBeanController<ScheduleJob> {
 	@Log(logType = LogType.SELECT)
 	@RequiresMethodPermissions("list")
 	public void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
-                         HttpServletResponse response) throws IOException {
+						 HttpServletResponse response) throws IOException {
 		EntityWrapper<ScheduleJob> entityWrapper = new EntityWrapper<>(entityClass);
 		propertyPreFilterable.addQueryProperty("id");
 		// 预处理
@@ -83,7 +82,7 @@ public class ScheduleJobController extends BaseBeanController<ScheduleJob> {
 	@Log(logType = LogType.INSERT)
 	@RequiresMethodPermissions("add")
 	public Response add(ScheduleJob entity, BindingResult result,
-                        HttpServletRequest request, HttpServletResponse response) {
+						HttpServletRequest request, HttpServletResponse response) {
 		// 验证错误
 		this.checkError(entity,result);
 		scheduleJobService.insert(entity);
@@ -102,7 +101,7 @@ public class ScheduleJobController extends BaseBeanController<ScheduleJob> {
 	@Log(logType = LogType.UPDATE)
 	@RequiresMethodPermissions("update")
 	public Response update(ScheduleJob entity, BindingResult result,
-                           HttpServletRequest request, HttpServletResponse response) {
+						   HttpServletRequest request, HttpServletResponse response) {
 		// 验证错误
 		this.checkError(entity,result);
 		scheduleJobService.insertOrUpdate(entity);
@@ -151,7 +150,7 @@ public class ScheduleJobController extends BaseBeanController<ScheduleJob> {
 	@Log(logType = LogType.OTHER,title = "任务状态")
 	@RequiresMethodPermissions("change:job:status")
 	public Response changeJobStatus(ScheduleJob scheduleJob, HttpServletRequest request,
-                                    HttpServletResponse response) {
+									HttpServletResponse response) {
 		String cmd = request.getParameter("cmd");
 		String label = "停止";
 		if (cmd.equals("start")) {
@@ -180,7 +179,7 @@ public class ScheduleJobController extends BaseBeanController<ScheduleJob> {
 	@Log(logType = LogType.OTHER,title = "执行一次")
 	@RequiresMethodPermissions("run:ajob:now")
 	public Response runAJobNow(ScheduleJob scheduleJob, HttpServletRequest request,
-                               HttpServletResponse response) {
+							   HttpServletResponse response) {
 		scheduleJobService.runAJobNow(scheduleJob.getId());
 		return Response.ok("任务启动成功");
 	}

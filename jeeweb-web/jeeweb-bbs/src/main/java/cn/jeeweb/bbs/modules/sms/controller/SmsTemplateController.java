@@ -19,6 +19,7 @@ import cn.jeeweb.common.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.common.utils.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializeFilter;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -95,7 +96,9 @@ public class SmsTemplateController extends BaseBeanController<SmsTemplate> {
                            HttpServletRequest request, HttpServletResponse response) {
         // 验证错误
         this.checkError(entity,result);
-        smsTemplateService.insertOrUpdate(entity);
+        String templateCode = StringUtils.randomString(10);
+        entity.setCode(templateCode);
+        smsTemplateService.insert(entity);
         return Response.ok("添加成功");
     }
 
@@ -103,6 +106,7 @@ public class SmsTemplateController extends BaseBeanController<SmsTemplate> {
     public ModelAndView update(@PathVariable("id") String id, Model model, HttpServletRequest request,
                                HttpServletResponse response) {
         SmsTemplate entity = smsTemplateService.selectById(id);
+        entity.setTemplateContent(StringEscapeUtils.unescapeHtml4(entity.getTemplateContent()));
         model.addAttribute("data", entity);
         return displayModelAndView ("edit");
     }

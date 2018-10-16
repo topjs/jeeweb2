@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SERVER_NAME='jeeweb-web'
+SERVER_NAME='jeeweb-admin'
 JAR_NAME="$SERVER_NAME.jar"
 cd `dirname $0`
 BIN_DIR=`pwd`
@@ -8,7 +8,8 @@ cd ..
 DEPLOY_DIR=`pwd`
 CONF_DIR=$DEPLOY_DIR/conf
 
-SERVER_PORT=`sed -nr '/port: [0-9]+/ s/.*port: +([0-9]+).*/\1/p' conf/application.yml`
+#SERVER_PORT=`sed -nr '/port: [0-9]+/ s/.*port: +([0-9]+).*/\1/p' conf/application.yml`
+SERVER_PORT='8080'
 
 PIDS=`ps -f | grep java | grep "$CONF_DIR" |awk '{print $2}'`
 if [ "$1" = "status" ]; then

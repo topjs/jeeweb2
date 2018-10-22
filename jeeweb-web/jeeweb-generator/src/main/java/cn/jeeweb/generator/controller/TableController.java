@@ -5,6 +5,7 @@ import cn.jeeweb.common.http.Response;
 import cn.jeeweb.common.mvc.annotation.ViewPrefix;
 import cn.jeeweb.common.mvc.controller.BaseBeanController;
 import cn.jeeweb.common.mybatis.mvc.wrapper.EntityWrapper;
+import cn.jeeweb.common.query.annotation.PageableDefaults;
 import cn.jeeweb.common.query.data.PropertyPreFilterable;
 import cn.jeeweb.common.query.data.Queryable;
 import cn.jeeweb.common.query.utils.QueryableConvertUtils;
@@ -65,8 +66,7 @@ public class TableController extends BaseBeanController<Table> {
     @Autowired
     private ITemplateService templateService;
 
-    private String[] types = { "String", "Double", "Text", "Date", "Blob", "Short", "Integer", "Boolean", "User",
-            "this" };
+    private String[] types = { "String", "Double", "Text", "Date", "Blob", "Short", "Integer", "Boolean" };
 
 
     @GetMapping
@@ -85,9 +85,11 @@ public class TableController extends BaseBeanController<Table> {
      * @throws IOException
      */
     @RequestMapping(value = "ajaxList", method = { RequestMethod.GET, RequestMethod.POST })
+    @PageableDefaults(sort = "createDate=desc")
     public void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
                          HttpServletResponse response) throws IOException {
         EntityWrapper<Table> entityWrapper = new EntityWrapper<>(entityClass);
+        entityWrapper.eq("test","0");
         propertyPreFilterable.addQueryProperty("id");
         // 预处理
         QueryableConvertUtils.convertQueryValueToEntityValue(queryable, entityClass);
@@ -98,17 +100,17 @@ public class TableController extends BaseBeanController<Table> {
     }
 
     public void preEdit(Table table, HttpServletRequest request) {
-        String sourceid=request.getParameter("sourceid");
+        String sourceId=request.getParameter("sourceId");
         if (table != null && !StringUtils.isEmpty(table.getId())){
-            sourceid=table.getSourceid();
+            sourceId=table.getSourceId();
         }
         if (table != null && !StringUtils.isEmpty(table.getId()) && StringUtils.isEmpty(table.getClassName())) {
             String entityName = StringUtils.toUpperCaseFirstOne(StringUtils.underlineToCamel(table.getTableName().toLowerCase()));
             table.setClassName(entityName);
         }
-        DataSource dataSource=dataSourceService.selectById(sourceid);
+        DataSource dataSource=dataSourceService.selectById(sourceId);
         // 查询表明
-        List<DbTableInfo> dbTableInfos = tableService.getTableNameList(sourceid);
+        List<DbTableInfo> dbTableInfos = tableService.getTableNameList(sourceId);
         request.setAttribute("dbTableInfos", dbTableInfos);
         List<Column> columns = columnService.selectListByTableId(table.getId());
         for (Column column:columns) {
@@ -133,7 +135,6 @@ public class TableController extends BaseBeanController<Table> {
         request.setAttribute("extendTypes", extendTypes);
         request.setAttribute("typeNames", typeNames);
         request.setAttribute("javaTypes", javaTypes);
-        request.setAttribute("sourceid",sourceid);
         List<Table> mainTables = tableService.selectList(new EntityWrapper<Table>(Table.class).eq("tableType", "2"));
         request.setAttribute("mainTables", mainTables);
     }
@@ -192,6 +193,7 @@ public class TableController extends BaseBeanController<Table> {
         if (!StringUtils.isEmpty(table.getId())) {
             Table oldTable = tableService.selectById(table.getId());
             String[] fields = { "tableName", "remarks" };
+            // 检查表信息是否更新
             if (!ObjectUtils.isEquals(oldTable, table, fields)) {
                 table.setSyncDatabase(Boolean.FALSE);
             }
@@ -201,10 +203,12 @@ public class TableController extends BaseBeanController<Table> {
             String columnListStr = StringEscapeUtils
                     .unescapeHtml4(request.getParameter("columnList"));
             List<Column> columnList = JSONObject.parseArray(columnListStr, Column.class);
+            // 检查表信息是否更新
             if (checkIsModify(oldColumnList, columnList)) {
                 table.setSyncDatabase(Boolean.FALSE);
             }
         }
+        table.setTest(Boolean.FALSE);
     }
 
     public Boolean checkIsModify(List<Column> oldColumnList, List<Column> newColumnList) {
@@ -260,7 +264,11 @@ public class TableController extends BaseBeanController<Table> {
         }
         request.setAttribute("templateSchemeId",templateSchemeId);
         //模版列表
-        List<Template> templates= templateService.selectList(new EntityWrapper<Template>(Template.class).eq("scheme_id",templateSchemeId));
+        EntityWrapper<Template> entityWrapper =  new EntityWrapper<Template>(Template.class);
+        entityWrapper.eq("scheme_id",templateSchemeId);
+        entityWrapper.orderBy("sort");
+        List<Template> templates=
+                templateService.selectList(entityWrapper);
         for (Template template: templates ) {
             Template templateCache = (Template) CacheUtils.get(template.getId());
             if (templateCache != null) {
@@ -318,9 +326,9 @@ public class TableController extends BaseBeanController<Table> {
 
     @GetMapping(value = "/importDatabase")
     public ModelAndView importDatabase(HttpServletRequest request, HttpServletResponse response) {
-        String sourceid=request.getParameter("sourceid");
+        String sourceId=request.getParameter("sourceId");
         // 查询表明
-        List<DbTableInfo> dbTableInfos = tableService.getTableNameList(sourceid);
+        List<DbTableInfo> dbTableInfos = tableService.getTableNameList(sourceId);
         request.setAttribute("dbTableInfos", dbTableInfos);
         request.setAttribute("data", new Table());
         return displayModelAndView("import_database");

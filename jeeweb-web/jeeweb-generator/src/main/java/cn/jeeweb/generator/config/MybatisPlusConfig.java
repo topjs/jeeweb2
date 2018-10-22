@@ -1,9 +1,11 @@
 package cn.jeeweb.generator.config;
 
 import cn.jeeweb.common.mybatis.mvc.injector.AutoSqlInjector;
+import cn.jeeweb.generator.common.handler.BaseMetaObjectHandler;
 import com.baomidou.mybatisplus.incrementer.H2KeyGenerator;
 import com.baomidou.mybatisplus.incrementer.IKeyGenerator;
 import com.baomidou.mybatisplus.mapper.ISqlInjector;
+import com.baomidou.mybatisplus.mapper.MetaObjectHandler;
 import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.plugins.PerformanceInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
@@ -104,4 +106,8 @@ public class MybatisPlusConfig {
         return new AutoSqlInjector();
     }
 
+    @Bean
+    public MetaObjectHandler metaObjectHandler(){
+        return new BaseMetaObjectHandler();
+    }
 }

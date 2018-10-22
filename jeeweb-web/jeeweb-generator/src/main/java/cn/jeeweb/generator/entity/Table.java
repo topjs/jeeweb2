@@ -27,7 +27,8 @@ public class Table extends AbstractEntity<String> implements java.io.Serializabl
 	@TableId(value = "id", type = IdType.UUID)
 	private String id;
 	//数据源id
-	private String sourceid;
+	@TableField("source_id")
+	private String sourceId;
 	@TableField("title")
 	private String title;
 	@TableField("table_name")
@@ -40,10 +41,13 @@ public class Table extends AbstractEntity<String> implements java.io.Serializabl
 	private String tablePKType;
 	@TableField("sync_database")
 	private Boolean syncDatabase;
+	@TableField("is_test")
+	private Boolean test;
 	@TableField(exist = false)
 	private String parentField;
 	@TableField("remarks")
 	private String remarks;
+
 
 	@TableField(exist = false)
 	private List<Column> columns = new ArrayList<Column>();
@@ -129,11 +133,19 @@ public class Table extends AbstractEntity<String> implements java.io.Serializabl
 		this.remarks = remarks;
 	}
 
-	public String getSourceid() {
-		return sourceid;
+	public String getSourceId() {
+		return sourceId;
 	}
 
-	public void setSourceid(String sourceid) {
-		this.sourceid = sourceid;
+	public void setSourceId(String sourceId) {
+		this.sourceId = sourceId;
+	}
+
+	public Boolean getTest() {
+		return test;
+	}
+
+	public void setTest(Boolean test) {
+		this.test = test;
 	}
 }

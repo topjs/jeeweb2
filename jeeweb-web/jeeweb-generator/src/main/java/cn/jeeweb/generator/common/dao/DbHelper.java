@@ -110,7 +110,7 @@ public class DbHelper implements IDbHelper {
                 // 获得字段名称
                 String columnName = resultSet.getString("COLUMN_NAME");
                 // 获得字段类型名称
-                String typeName = resultSet.getString("TYPE_NAME").toUpperCase();
+                String typeName = resultSet.getString("TYPE_NAME");
                 // 获得字段大小
                 String columnSize = resultSet.getString("COLUMN_SIZE");
                 // 获得字段备注

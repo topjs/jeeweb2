@@ -2,6 +2,7 @@ package cn.jeeweb.generator.interceptor;
 
 import cn.jeeweb.common.utils.CacheUtils;
 import cn.jeeweb.common.utils.MessageUtils;
+import cn.jeeweb.common.utils.StringUtils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
@@ -59,17 +60,17 @@ public class WebInterceptor extends HandlerInterceptorAdapter {
         if (currentPath.contains("/admin")){
             currentPath=currentPath.substring("/admin".length(),currentPath.length());
         }
+        if (StringUtils.isEmpty(currentPath)){
+            currentPath=currentPath+"/";
+        }
         //获得档期那菜单
         Object currentMenu=null;
         for (Object object :navigations) {
             JSONObject jsonObject= (JSONObject) object;
             String url=jsonObject.getString("url");
-            if (url.endsWith(currentPath)){
+            if (url.equals(currentPath)){
                 currentMenu=jsonObject;
             }
-        }
-        if (!currentPath.endsWith("/")){
-            currentPath=currentPath+"/";
         }
         request.setAttribute("currentMenu",currentMenu);
         request.setAttribute("currentPath",currentPath);

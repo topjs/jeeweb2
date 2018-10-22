@@ -130,7 +130,7 @@ public class TableServiceImpl extends CommonServiceImpl<TableMapper, Table> impl
 		Table table = selectById(id);
 		// 先刪除表
 		try {
-			dataSourceService.getDbHelper(table.getSourceid()).dropTable(table.getTableName());
+			dataSourceService.getDbHelper(table.getSourceId()).dropTable(table.getTableName());
 		} catch (Exception e) {
 			e.printStackTrace();
 			// 部分数据库在没有表而执行删表语句时会报错
@@ -172,10 +172,11 @@ public class TableServiceImpl extends CommonServiceImpl<TableMapper, Table> impl
 		table.setRemarks(title);
 		table.setTableName(tableName);
 		table.setSyncDatabase(Boolean.TRUE);
+		table.setTest(Boolean.FALSE);
 		// 保存主表
 		super.insert(table);
-		DataSource dataSource=dataSourceService.selectById(table.getSourceid());
-		List<DbColumnInfo> dbColumnInfos = dataSourceService.getDbHelper(table.getSourceid()).getDbColumnInfo(tableName);
+		DataSource dataSource=dataSourceService.selectById(table.getSourceId());
+		List<DbColumnInfo> dbColumnInfos = dataSourceService.getDbHelper(table.getSourceId()).getDbColumnInfo(tableName);
 		for (int j = 0; j < dbColumnInfos.size(); j++) {
 			Column column = new Column(dbColumnInfos.get(j),dataSource.getDbType());
 			column.setSort(j + 1);
@@ -189,7 +190,7 @@ public class TableServiceImpl extends CommonServiceImpl<TableMapper, Table> impl
 	public void dropTable(String tableid) {
 		Table table = selectById(tableid);
 		try {
-			dataSourceService.getDbHelper(table.getSourceid()).dropTable(table.getTableName());
+			dataSourceService.getDbHelper(table.getSourceId()).dropTable(table.getTableName());
 		} catch (Exception e) {
 			// 部分数据库在没有表而执行删表语句时会报错
 			// logger.error(e.getMessage());
@@ -199,7 +200,7 @@ public class TableServiceImpl extends CommonServiceImpl<TableMapper, Table> impl
 	@Override
 	public void syncDatabase(String tableid) throws TemplateException, IOException {
 		Table table=selectById(tableid);
-		DataSource dataSource=dataSourceService.selectById(table.getSourceid());
+		DataSource dataSource=dataSourceService.selectById(table.getSourceId());
 		List<Column> columns = columnService.selectListByTableId(table.getId());
 		for (Column column:columns) {
 			column.setDbType(dataSource.getDbType());
@@ -208,7 +209,7 @@ public class TableServiceImpl extends CommonServiceImpl<TableMapper, Table> impl
 		Map<String, Object> tableInfo = new HashMap<String, Object>();
 		tableInfo.put("table", table);
 		tableInfo.put("dbType", dataSource.getDbType());
-		dataSourceService.getDbHelper(table.getSourceid()).createTable(tableInfo);
+		dataSourceService.getDbHelper(table.getSourceId()).createTable(tableInfo);
 		table.setSyncDatabase(Boolean.TRUE);
 		super.insertOrUpdate(table);
 	}
@@ -230,15 +231,14 @@ public class TableServiceImpl extends CommonServiceImpl<TableMapper, Table> impl
 		 } catch (TemplateException e) {
 			 throw  new GenerationException("“"+template.getName()+"”"+e.getFTLInstructionStack());
 		 }
-
 	}
 
 
 	public Map<String, Object> getFtlMap(Scheme scheme, Template template, List<Template> allTemplates) {
-		Map<String, Object> dataMap = new HashMap<>();
+		Map<String, Object> dataMap = new HashMap<String, Object>();
 		//文件导入的以后再处理
 		dataMap =JSON.parseObject(JSON.toJSON(scheme).toString(),Map.class);
-		String packageName =  parsePackageName(template.getTargetPackage(),scheme.getModuleName());
+		String packageName = parsePackageName(template.getTargetPackage(),scheme.getModuleName());
 		dataMap.put("targetPackage",packageName);
 		//获取table
 		List<Column> columns=columnService.selectListByTableId(scheme.getTable().getId());
@@ -254,7 +254,7 @@ public class TableServiceImpl extends CommonServiceImpl<TableMapper, Table> impl
 		String time= DateUtils.formatDateTime(new Date());
 		dataMap.put("time",time);
 		//获得实体导入
-	/*	List<String> importTypes = new ArrayList<String>();
+	    /*List<String> importTypes = new ArrayList<String>();
 		List<AttributeInfo> attributeInfos = generatorInfo.getAttributeInfos();
 		Map<String, Boolean> tempImportMap = new HashMap<String, Boolean>();
 		if (attributeInfos!=null) {
@@ -271,6 +271,9 @@ public class TableServiceImpl extends CommonServiceImpl<TableMapper, Table> impl
 	}
 
 	private String parsePackageName(String packageName,String moduleName){
+		if (StringUtils.isEmpty(packageName)){
+			return "";
+		}
 		if (!StringUtils.isEmpty(moduleName)){
 			packageName =  packageName.replace("[moduleName]",moduleName);
 		}else if(packageName.startsWith("[moduleName]")){
@@ -315,6 +318,7 @@ public class TableServiceImpl extends CommonServiceImpl<TableMapper, Table> impl
 		}
 		return outFile;
 	}
+
 	/**
 	 * 模版解析
 	 * @param rootMap

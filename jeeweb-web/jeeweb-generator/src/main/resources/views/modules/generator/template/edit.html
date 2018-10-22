@@ -5,7 +5,7 @@
 	<table  class="table table-bordered  table-condensed dataTables-example dataTable no-footer">
 		<tbody>
 		<tr>
-			<td  class="active text-right" style="style:10%">
+			<td  class="active text-right" style="width:15%">
 				<label><font color="red">*</font>模板名称:</label>
 			</td>
 			<td>
@@ -60,8 +60,15 @@
 			<td  class="active text-right" style="style:10%">
 				<label><font color="red">*</font>是否驼峰命名:</label>
 			</td>
-			<td colspan="3">
+			<td>
 				<#form:radiobuttons path="nameUnderline"  class="i-checks" dict="sf" defaultValue="1"  htmlEscape="false" datatype="*" nullmsg="请选择文件名是否下划线！" />
+				<label class="Validform_checktip"></label>
+			</td>
+			<td  class="active text-right" style="style:10%">
+				<label><font color="red">*</font>排序:</label>
+			</td>
+			<td>
+				<#form:input path="sort" class="form-control " datatype="*" nullmsg="请输入排序值！" htmlEscape="false" />
 				<label class="Validform_checktip"></label>
 			</td>
 		</tr>
@@ -70,9 +77,13 @@
 				<label><font color="red">*</font>模板内容:</label>
 			</td>
 			<td colspan="3">
-				<#form:editor   path="templateContent"  theme="eclipse" editorAfterSetting="editorAfterSetting" editorType="codemirror"  editorHeight="500px" class="form-control" rows="20" datatype="*" nullmsg="请输入模板内容！" htmlEscape="false"></#form:editor>
+				<#form:editor   path="templateContent"  theme="eclipse" editorAfterSetting="editorAfterSetting" editorType="codemirror"  editorHeight="500px" editorWidth="1200px"  class="form-control" rows="20" datatype="*" nullmsg="请输入模板内容！" htmlEscape="false"></#form:editor>
 				<label class="Validform_checktip"></label>
-
+			</td>
+		</tr>
+		<tr>
+			<td  class="width-15 active text-right" colspan="4">
+				<input  class="btn btn btn-warning" type="button" onclick="testGenerator();" value="生成测试" />
 			</td>
 		</tr>
 		</tbody>
@@ -107,6 +118,13 @@
             $("#targetPackagDiv").show();
             $("#targetPackage").attr("datatype","*");
         }
+    }
+
+    function testGenerator(type){
+        $("#templateForm").attr("action", "${adminPath}/generator/template/test?schemeId=${schemeId}");
+        doSubmit(function () {});
+        $("#templateForm").attr("action", "");
+        return false;
     }
 </script>
 

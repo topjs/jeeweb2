@@ -48,6 +48,8 @@ public class Template extends AbstractEntity<String> implements java.io.Serializ
     /**生成目录*/
     @TableField(value = "target_path")
 	private String targetPath;
+	@TableField(value = "sort")
+    private Integer sort;
 	
 	/**
 	 * 获取  id
@@ -165,5 +167,13 @@ public class Template extends AbstractEntity<String> implements java.io.Serializ
 
 	public void setTargetPath(String targetPath) {
 		this.targetPath = targetPath;
+	}
+
+	public Integer getSort() {
+		return sort;
+	}
+
+	public void setSort(Integer sort) {
+		this.sort = sort;
 	}
 }

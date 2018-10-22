@@ -4,6 +4,8 @@ import cn.jeeweb.common.mybatis.mvc.service.ICommonService;
 import cn.jeeweb.common.mybatis.mvc.service.ICommonService;
 import cn.jeeweb.generator.entity.Template;
 
+import java.io.Serializable;
+
 /**   
  * @Title: 生成模板
  * @Description: 生成模板
@@ -14,5 +16,18 @@ import cn.jeeweb.generator.entity.Template;
  */
 public interface ITemplateService extends ICommonService<Template> {
 
+    /**
+     * 复制
+     * @param template
+     * @return
+     */
+    boolean inlineEdit(Template template);
+
+    /**
+     *  模版测试
+     * @param template
+     * @return
+     */
+    void test(Template template);
 }
 

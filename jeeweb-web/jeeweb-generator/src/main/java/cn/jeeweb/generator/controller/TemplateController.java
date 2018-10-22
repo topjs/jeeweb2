@@ -60,7 +60,6 @@ public class TemplateController extends BaseBeanController<Template> {
     }
 
     @RequestMapping(value = "ajaxList", method = { RequestMethod.GET, RequestMethod.POST })
-    @PageableDefaults(sort = "id=desc")
     private void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
         EntityWrapper<Template> entityWrapper = new EntityWrapper<Template>(entityClass);
@@ -84,6 +83,8 @@ public class TemplateController extends BaseBeanController<Template> {
         if (!model.containsAttribute("data")) {
             model.addAttribute("data", newModel());
         }
+        String schemeId = request.getParameter("schemeId");
+        model.addAttribute("schemeId", schemeId);
         return displayModelAndView("edit");
     }
 
@@ -101,6 +102,8 @@ public class TemplateController extends BaseBeanController<Template> {
                          HttpServletResponse response) {
         Template template = get(id);
         model.addAttribute("data", template);
+        String schemeId = request.getParameter("schemeId");
+        model.addAttribute("schemeId", template.getSchemeId());
         return displayModelAndView("edit");
     }
 
@@ -124,5 +127,35 @@ public class TemplateController extends BaseBeanController<Template> {
         List<String> idList = java.util.Arrays.asList(ids);
         templateService.deleteBatchIds(idList);
         return Response.ok("删除成功");
+    }
+
+    /**
+     * 行内编辑
+     * @return
+     */
+    @PostMapping(value = "inline/edit")
+    public Response inlineEdit(Template template) { ;
+        try {
+            templateService.inlineEdit(template);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.error("删除失败");
+        }
+        return  Response.ok("删除成功");
+    }
+
+    /**
+     * 模版测试
+     * @return
+     */
+    @PostMapping(value = "test")
+    public Response test(Template template) { ;
+        try {
+            templateService.test(template);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.error("生成失败："+e.getMessage());
+        }
+        return  Response.ok("生成成功");
     }
 }

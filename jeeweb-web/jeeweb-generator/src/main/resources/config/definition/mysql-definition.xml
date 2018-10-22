@@ -11,27 +11,27 @@
 	<!-- 名称 -->
 	<db-driver>com.mysql.jdbc.Driver</db-driver>
 	<db>
-	    <!-- 搜索类型 -->
-	    <all-types>
-	       VARCHAR,TINYINT,SMALLINT,MEDIUMINT,INT,INTEGER,BIGINT,FLOAT,DOUBLE,DECIMAL,DATE,TIME,YEAR,DATETIME,TIMESTAMP,BINARY,VARBINARY,CHAR,TINYBLOB,TINYTEXT,BLOB,TEXT,MEDIUMBLOB,MEDIUMTEXT,LONGBLOB,LONGTEXT
-	    </all-types>
-	    <!-- 字符类型 -->
-	    <char-types>
-	       CHAR,VARCHAR,TINYBLOB,TINYTEXT,BLOB,TEXT,MEDIUMBLOB,MEDIUMTEXT,LONGBLOB,LONGTEXT
-	    </char-types>
-	    <!--需要设置小组点的类型-->
-	    <float-types>
-	       FLOAT,DOUBLE,DECIMAL
-	    </float-types>
-	    <!--不需要设置长度的类型 -->
-	    <alone-types>
-	       DATE,TIME,YEAR,DATETIME,TIMESTAMP,TINYBLOB,BLOB,TEXT,MEDIUMBLOB,MEDIUMTEXT,LONGBLOB,LONGTEXT
-	    </alone-types>
-	    <!--大文本类型 -->
-	    <blob-types>
-	        TINYBLOB,BLOB,TEXT,MEDIUMBLOB,MEDIUMTEXT,LONGBLOB,LONGTEXT
-	    </blob-types>
-	    
+		<!-- 搜索类型 -->
+		<all-types>
+			VARCHAR,TINYINT,SMALLINT,MEDIUMINT,INT,INTEGER,BIGINT,FLOAT,DOUBLE,DECIMAL,DATE,TIME,YEAR,DATETIME,TIMESTAMP,BINARY,VARBINARY,CHAR,TINYBLOB,TINYTEXT,BLOB,TEXT,MEDIUMBLOB,MEDIUMTEXT,LONGBLOB,LONGTEXT
+		</all-types>
+		<!-- 字符类型 -->
+		<char-types>
+			CHAR,VARCHAR,TINYBLOB,TINYTEXT,BLOB,TEXT,MEDIUMBLOB,MEDIUMTEXT,LONGBLOB,LONGTEXT
+		</char-types>
+		<!--需要设置小组点的类型-->
+		<float-types>
+			FLOAT,DOUBLE,DECIMAL
+		</float-types>
+		<!--不需要设置长度的类型 -->
+		<alone-types>
+			DATE,TIME,YEAR,DATETIME,TIMESTAMP,TINYBLOB,BLOB,TEXT,MEDIUMBLOB,MEDIUMTEXT,LONGBLOB,LONGTEXT
+		</alone-types>
+		<!--大文本类型 -->
+		<blob-types>
+			TINYBLOB,BLOB,TEXT,MEDIUMBLOB,MEDIUMTEXT,LONGBLOB,LONGTEXT
+		</blob-types>
+
 		<sqls>
 			<sql>
 				<!-- SQLID  -->
@@ -40,10 +40,10 @@
 				<description>删除语句的SQL</description>
 				<!-- SQL片段 -->
 				<content>
-				 <![CDATA[
+					<![CDATA[
 				   DROP TABLE IF EXISTS ${tablename}
 				 ]]>
-			    </content>
+				</content>
 			</sql>
 			<sql>
 				<!-- SQL ID  -->
@@ -52,8 +52,8 @@
 				<description>创建表SQL</description>
 				<!-- SQL片段 -->
 				<content>
-				 <![CDATA[
-				   CREATE TABLE `${table.tableName}` (  
+					<![CDATA[
+				   CREATE TABLE `${table.tableName}` (
 					   `id` varchar(32) NOT NULL COMMENT '主键',
 					   <#if table.columns?exists>
 					   <#list table.columns as attr>
@@ -62,10 +62,10 @@
 					   </#if>
 					   </#list>
 					   </#if>
-					  PRIMARY KEY (`id`)  
+					  PRIMARY KEY (`id`)
 					) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='${table.remarks!}';
 				 ]]>
-			    </content>
+				</content>
 			</sql>
 		</sqls>
 	</db>
@@ -138,7 +138,7 @@
 	</dbtojava-types>
 	<!-- java类型与class全路径的对应 -->
 	<typetofull-types>
-		 <type>
+		<type>
 			<java-type>Date</java-type>
 			<full-type>java.util.Date</full-type>
 		</type>

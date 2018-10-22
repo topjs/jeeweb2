@@ -6,6 +6,8 @@ server:
 spring:
   session:
      store-type: none
+  mvc:
+    throw-exception-if-no-handler-found: true
   messages: #国际化
       basename: i18n/messages,i18n/ValidationMessages
   thymeleaf: #关闭默认模板引擎
@@ -13,7 +15,6 @@ spring:
     enabled: false
   aop:  #使用CGLIB来实现AOP的时候
      proxy-target-class: true
-
  #DATABASE CONFIG
   datasource:
     driver-class-name: com.mysql.jdbc.Driver

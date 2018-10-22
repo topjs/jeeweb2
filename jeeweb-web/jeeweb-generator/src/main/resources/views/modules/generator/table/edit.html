@@ -16,9 +16,8 @@
 
 <body class="white-bg">
 	<div class="ibox-content">
-       <#form:form id="inputForm"  modelAttribute="data" action="${adminPath}/generator/table/save" method="post" class="form-horizontal">
+       <#form:form id="inputForm"  modelAttribute="data" method="post" class="form-horizontal">
 		<#form:hidden path="id"/>
-           <#form:hidden path="sourceid" defaultValue="${sourceid}"/>
 		<#form:hidden path="columnList" nested="false"/>
 		<table class="table table-bordered  table-condensed dataTables-example dataTable no-footer">
 		   <tbody>

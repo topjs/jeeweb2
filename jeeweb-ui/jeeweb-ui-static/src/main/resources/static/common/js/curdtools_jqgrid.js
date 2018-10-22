@@ -1,6 +1,6 @@
 ﻿/*!
  * Copyright &copy; 2016-2020 <a href="http://www.jeeweb.cn/">JeeWeb</a> All rights reserved.
- *
+ * 
  * 通用公共方法
  * @author 王存见
  * @version 2016-12-04
@@ -11,7 +11,7 @@
  * @param addurl//目标页面地址
  */
 function add(title,url,gridid,width,height) {
-    openDialog(title,url,gridid,width,height);
+	openDialog(title,url,gridid,width,height);
 }
 
 /**
@@ -20,7 +20,7 @@ function add(title,url,gridid,width,height) {
  * @param addurl//目标页面地址
  */
 function addDialog(title,url,gridid,width,height) {
-    openDialog(title,url,gridid,width,height);
+	openDialog(title,url,gridid,width,height);
 }
 
 
@@ -34,24 +34,24 @@ function addDialog(title,url,gridid,width,height) {
  * @param id//主键字段
  */
 function update(title,url,gridId,width,height) {
-    var rowsData = $("#"+gridId).jqGrid('getGridParam','selarrrow');
-    var multiselect=$("#"+gridId).jqGrid('getGridParam','multiselect');
-    var rowData= $("#"+gridId).jqGrid('getGridParam','selrow');
-    if(!multiselect)
-    {
-        if(rowData)
-        {
-            rowsData[0]=rowData;
-        }
-    }
+	var rowsData = $("#"+gridId).jqGrid('getGridParam','selarrrow');
+	var multiselect=$("#"+gridId).jqGrid('getGridParam','multiselect');
+	var rowData= $("#"+gridId).jqGrid('getGridParam','selrow');
+	if(!multiselect)
+	{
+		if(rowData)
+		{
+			  rowsData[0]=rowData;
+		}
+	}
     if (!rowsData || rowsData.length==0) {
-        top.layer.alert('请至少选择一条数据!', {icon: 0, title:'警告'});
-        return;
-    }
+	    top.layer.alert('请至少选择一条数据!', {icon: 0, title:'警告'});
+		return;
+	}
     if (rowsData.length>1) {
-        top.layer.alert('只能选择一条数据!', {icon: 0, title:'警告'});
-        return;
-    }
+    	top.layer.alert('只能选择一条数据!', {icon: 0, title:'警告'});
+		return;
+	}
 
     var id = rowsData[0];
     url=url.replace("{id}",id);
@@ -65,24 +65,24 @@ function update(title,url,gridId,width,height) {
  * @param id//主键字段
  */
 function updateDialog(title,url,gridId,width,height) {
-    var rowsData = $("#"+gridId).jqGrid('getGridParam','selarrrow');
-    var multiselect=$("#"+gridId).jqGrid('getGridParam','multiselect');
-    var rowData= $("#"+gridId).jqGrid('getGridParam','selrow');
-    if(!multiselect)
-    {
-        if(rowData)
-        {
-            rowsData[0]=rowData;
-        }
-    }
+	var rowsData = $("#"+gridId).jqGrid('getGridParam','selarrrow');
+	var multiselect=$("#"+gridId).jqGrid('getGridParam','multiselect');
+	var rowData= $("#"+gridId).jqGrid('getGridParam','selrow');
+	if(!multiselect)
+	{
+		if(rowData)
+		{
+			  rowsData[0]=rowData;
+		}
+	}
     if (!rowsData || rowsData.length==0) {
-        top.layer.alert('请至少选择一条数据!', {icon: 0, title:'警告'});
-        return;
-    }
+	    top.layer.alert('请至少选择一条数据!', {icon: 0, title:'警告'});
+		return;
+	}
     if (rowsData.length>1) {
-        top.layer.alert('只能选择一条数据!', {icon: 0, title:'警告'});
-        return;
-    }
+    	top.layer.alert('只能选择一条数据!', {icon: 0, title:'警告'});
+		return;
+	}
 
     var id = rowsData[0];
     url=url.replace("{id}",id);
@@ -97,22 +97,22 @@ function updateDialog(title,url,gridId,width,height) {
  * @return
  */
 function toolbarSelectConfirm(title,url,gridId,tipMsg) {
-    if(tipMsg==undefined||tipMsg==''){
-        tipMsg="您确定要执行该操作！";
-    }
-    var ids = [];
-    var rows =$("#"+gridId).jqGrid('getGridParam','selarrrow');
-    var rowData= $("#"+gridId).jqGrid('getGridParam','selrow');
-    var multiselect=$("#"+gridId).jqGrid('getGridParam','multiselect');
-    if(!multiselect)
-    {
-        if(rowData)
-        {
-            rows[0]=rowData;
-        }
-    }
+	if(tipMsg==undefined||tipMsg==''){
+		  tipMsg="您确定要执行该操作！";
+	}
+	var ids = [];
+	var rows =$("#"+gridId).jqGrid('getGridParam','selarrrow');
+	var rowData= $("#"+gridId).jqGrid('getGridParam','selrow');
+	var multiselect=$("#"+gridId).jqGrid('getGridParam','multiselect');
+	if(!multiselect)
+	{
+		if(rowData)
+		{
+			rows[0]=rowData;
+		}
+	}
     if (rows.length > 0) {
-        swal({
+    	swal({
             title: title+"提示",
             text: tipMsg,
             type: "warning",
@@ -122,72 +122,72 @@ function toolbarSelectConfirm(title,url,gridId,tipMsg) {
             closeOnConfirm: false,
             cancelButtonText: "取消",
         }, function () {
-            for ( var i = 0; i < rows.length; i++) {
-                ids.push(rows[i]);
-            }
-            $.ajax({
-                url : url,
-                type : 'post',
-                data : {
-                    ids : ids.join(',')
-                },
-                cache : false,
-                success : function(d) {
-                    if (d.code==0 || d.code== undefined==0) {
-                        var msg = d.msg;
-                        swal(title+"提示！", msg, "success");
-                        //刷新表单
-                        refreshTable(gridId);
-                    }else{
-                        var msg = d.msg;
-                        swal(title+"提示！", msg, "error");
-                    }
-                }
-            });
+        	for ( var i = 0; i < rows.length; i++) {
+        		ids.push(rows[i]);
+			}
+			$.ajax({
+				url : url,
+				type : 'post',
+				data : {
+					ids : ids.join(',')
+				},
+				cache : false,
+				success : function(d) {
+					if (d.code==0 || d.code== undefined==0) {
+						var msg = d.msg;
+					    swal(title+"提示！", msg, "success");
+					    //刷新表单
+			            refreshTable(gridId);
+					}else{
+						var msg = d.msg;
+					    swal(title+"提示！", msg, "error");
+					}
+				}
+			});
         });
-        return;
-    }else
-    {
-        top.layer.alert('请选择需要操作的数据!', {icon: 0, title:'警告'});
-        return;
-    }
+		return;
+	}else
+	{
+	    top.layer.alert('请选择需要操作的数据!', {icon: 0, title:'警告'});
+	    return;
+	}
 }
 
 //打开对话框(添加修改)
 function openDialog(title,url,gridId,width,height){
-    width = width?width:'800px';
-    height = height?height:'500px';
-    if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
-        width='auto';
-        height='auto';
-    }else{//如果是PC端，根据用户设置的width和height显示。
+	width = width?width:'800px';
+	height = height?height:'500px';
+	if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+		width='auto';
+		height='auto';
+	}else{//如果是PC端，根据用户设置的width和height显示。
 
-    }
-    top.layer.open({
-        type: 2,
-        area: [width, height],
-        title: title,
+	}
+	top.layer.open({
+	    type: 2,
+	    area: [width, height],
+	    title: title,
         maxmin: true, //开启最大化最小化按钮
-        content: url ,
-        btn: ['确定', '关闭'],
-        yes: function(index, layero){
-            var body = top.layer.getChildFrame('body', index);
-            var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-            //文档地址
-            //http://www.layui.com/doc/modules/layer.html#use
-            iframeWin.contentWindow.doSubmit(function()
-            {
-                //判断逻辑并关闭
-                setTimeout(function(){top.layer.close(index)}, 100);//延时0.1秒，对应360 7.1版本bug
-                //刷新表单
-                refreshTable(gridId);
-            });
+	    content: url ,
+	    btn: ['确定', '关闭'],
+	    yes: function(index, layero){
+	    	 var body = top.layer.getChildFrame('body', index);
+	         var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+			//文档地址
+	         //http://www.layui.com/doc/modules/layer.html#use
+	         iframeWin.contentWindow.doSubmit(function()
+	         {
+	        	 //判断逻辑并关闭
+       	         setTimeout(function(){top.layer.close(index)}, 100);//延时0.1秒，对应360 7.1版本bug
+	        	 //刷新表单
+	        	 refreshTable(gridId);
+	         });
 
-        },
-        cancel: function(index){
+		  },
+		  cancel: function(index){
 
-        }
-    });
+		  }
+	});
 
 }
 
@@ -199,40 +199,40 @@ function openDialog(title,url,gridId,width,height){
  * @return
  */
 function deleteRowData(title,url,infoid,gridId,tipMsg) {
-    url=url.replace("{id}",infoid);
-    if(tipMsg==undefined||tipMsg==''){
-        msg= "您确定要删除该信息么，请谨慎操作！";
-    }
-    swal({
-        title: "提示",
-        text: msg,
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "确定",
-        closeOnConfirm: false,
-        cancelButtonText: "取消",
-    }, function () {
-        $.ajax({
-            url : url,
-            type : 'post',
-            data : {
-                id : infoid
-            },
-            cache : false,
-            success : function(d) {
-                if (d.code==0 || d.code== undefined==0) {
-                    var msg = d.msg;
-                    swal("提示！", msg, "success");
-                    //刷新表单
-                    refreshTable(gridId);
-                }else{
-                    var msg = d.msg;
-                    swal("提示！", msg, "error");
-                }
-            }
+	   url=url.replace("{id}",infoid);
+	   if(tipMsg==undefined||tipMsg==''){
+		   msg= "您确定要删除该信息么，请谨慎操作！";
+	   }
+	   swal({
+            title: "提示",
+            text: msg,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            closeOnConfirm: false,
+            cancelButtonText: "取消",
+        }, function () {
+			$.ajax({
+				url : url,
+				type : 'post',
+				data : {
+					id : infoid
+				},
+				cache : false,
+				success : function(d) {
+					if (d.code==0 || d.code== undefined==0) {
+						var msg = d.msg;
+					    swal("提示！", msg, "success");
+					    //刷新表单
+			            refreshTable(gridId);
+					}else{
+						var msg = d.msg;
+					    swal("提示！", msg, "error");
+					}
+				}
+			});
         });
-    });
 }
 
 /**
@@ -243,19 +243,19 @@ function deleteRowData(title,url,infoid,gridId,tipMsg) {
  * @return
  */
 function batchDelete(title,url,gridId) {
-    var ids = [];
-    var rows =$("#"+gridId).jqGrid('getGridParam','selarrrow');
-    var rowData= $("#"+gridId).jqGrid('getGridParam','selrow');
-    var multiselect=$("#"+gridId).jqGrid('getGridParam','multiselect');
-    if(!multiselect)
-    {
-        if(rowData)
-        {
-            rows[0]=rowData;
-        }
-    }
+	var ids = [];
+	var rows =$("#"+gridId).jqGrid('getGridParam','selarrrow');
+	var rowData= $("#"+gridId).jqGrid('getGridParam','selrow');
+	var multiselect=$("#"+gridId).jqGrid('getGridParam','multiselect');
+	if(!multiselect)
+	{
+		if(rowData)
+		{
+			rows[0]=rowData;
+		}
+	}
     if (rows.length > 0) {
-        swal({
+    	swal({
             title: "提示",
             text: "您确定要删除这些信息么，请谨慎操作！",
             type: "warning",
@@ -265,35 +265,35 @@ function batchDelete(title,url,gridId) {
             closeOnConfirm: false,
             cancelButtonText: "取消",
         }, function () {
-            for ( var i = 0; i < rows.length; i++) {
-                ids.push(rows[i]);
-            }
-            $.ajax({
-                url : url,
-                type : 'post',
-                data : {
-                    ids : ids.join(',')
-                },
-                cache : false,
-                success : function(d) {
-                    if (d.code==0 || d.code== undefined==0) {
-                        var msg = d.msg;
-                        swal("提示！", msg, "success");
-                        //刷新表单
-                        refreshTable(gridId);
-                    }else{
-                        var msg = d.msg;
-                        swal("提示！", msg, "error");
-                    }
-                }
-            });
+        	for ( var i = 0; i < rows.length; i++) {
+        		ids.push(rows[i]);
+			}
+			$.ajax({
+				url : url,
+				type : 'post',
+				data : {
+					ids : ids.join(',')
+				},
+				cache : false,
+				success : function(d) {
+					if (d.code==0 || d.code== undefined==0) {
+						var msg = d.msg;
+					    swal("提示！", msg, "success");
+					    //刷新表单
+			            refreshTable(gridId);
+					}else{
+						var msg = d.msg;
+					    swal("提示！", msg, "error");
+					}
+				}
+			});
         });
-        return;
-    }else
-    {
-        top.layer.alert('请选择需要删除的数据!', {icon: 0, title:'警告'});
-        return;
-    }
+		return;
+	}else
+	{
+	    top.layer.alert('请选择需要删除的数据!', {icon: 0, title:'警告'});
+	    return;
+	}
 }
 
 /**
@@ -304,40 +304,40 @@ function batchDelete(title,url,gridId) {
  * @return
  */
 function rowConfirm(title,url,infoid,gridId,tipMsg) {
-    url=url.replace("{id}",infoid);
-    if(tipMsg==undefined||tipMsg==''){
-        tipMsg="您确定要执行该操作！";
-    }
-    swal({
-        title: "提示",
-        text: tipMsg,
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "确定",
-        closeOnConfirm: false,
-        cancelButtonText: "取消",
-    }, function () {
-        $.ajax({
-            url : url,
-            type : 'post',
-            data : {
-                id : infoid
-            },
-            cache : false,
-            success : function(d) {
-                if (d.code==0 || d.code==undefined) {
-                    var msg = d.msg;
-                    swal("提示！", msg, "success");
-                    //刷新表单
-                    refreshTable(gridId);
-                }else{
-                    var msg = d.msg;
-                    swal("提示！", msg, "error");
-                }
-            }
+	  url=url.replace("{id}",infoid);
+	  if(tipMsg==undefined||tipMsg==''){
+		  tipMsg="您确定要执行该操作！";
+	  }
+	   swal({
+            title: "提示",
+            text: tipMsg,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            closeOnConfirm: false,
+            cancelButtonText: "取消",
+        }, function () {
+			$.ajax({
+				url : url,
+				type : 'post',
+				data : {
+					id : infoid
+				},
+				cache : false,
+				success : function(d) {
+					if (d.code==0 || d.code==undefined) {
+						var msg = d.msg;
+					    swal("提示！", msg, "success");
+					    //刷新表单
+			            refreshTable(gridId);
+					}else{
+						var msg = d.msg;
+					    swal("提示！", msg, "error");
+					}
+				}
+			});
         });
-    });
 }
 
 /*
@@ -360,22 +360,22 @@ function search(gridId) {
     queryParams['queryFields'] = queryFields;
     //普通的查询
     $('#' + gridId + "Query").find(":input").each(function() {
-        var val = $(this).val();
-        if (queryParams[$(this).attr('name')]) {
-            val = queryParams[$(this).attr('name')] + "," + $(this).val();
-        }
-        queryParams[$(this).attr('name')] = val;
-    });
+		var val = $(this).val();
+		if (queryParams[$(this).attr('name')]) {
+			val = queryParams[$(this).attr('name')] + "," + $(this).val();
+		}
+		queryParams[$(this).attr('name')] = val;
+	});
 
-    // 普通的查询
-    $('#' + gridId + "Query").find(":input").each(function() {
-        var condition = $(this).attr('condition');
-        if (!condition) {
-            condition = "";
-        }
-        var key = "query." + $(this).attr('name') + "||" + condition;
-        queryParams[key] = queryParams[$(this).attr('name')];
-    });
+	// 普通的查询
+	$('#' + gridId + "Query").find(":input").each(function() {
+		var condition = $(this).attr('condition');
+		if (!condition) {
+			condition = "";
+		}
+		var key = "query." + $(this).attr('name') + "||" + condition;
+		queryParams[key] = queryParams[$(this).attr('name')];
+	});
     //刷新
     //传入查询条件参数
     $("#"+gridId).jqGrid('setGridParam',{
@@ -392,52 +392,52 @@ function search(gridId) {
  * @param id//主键字段
  */
 function updateObj(title,url,gridId,id,width,height) {
-    url=preprocessUrl(url,id);
+	url=preprocessUrl(url,id);
     openDialog(title,url,gridId,width, height);
 }
 
 
 //打开对话框(查看)
 function openDialogDetailRefresh(title,url,gridId,width,height){
-    if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
-        width='auto';
-        height='auto';
-    }else{//如果是PC端，根据用户设置的width和height显示。
+	if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+		width='auto';
+		height='auto';
+	}else{//如果是PC端，根据用户设置的width和height显示。
 
-    }
-    top.layer.open({
-        type: 2,
-        area: [width, height],
-        title: title,
+	}
+	top.layer.open({
+	    type: 2,
+	    area: [width, height],
+	    title: title,
         maxmin: true, //开启最大化最小化按钮
-        content: url ,
-        btn: ['关闭'],
-        cancel: function(index){
-            //刷新表单
-            refreshTable(gridId);
-        }
-    });
+	    content: url ,
+	    btn: ['关闭'],
+	    cancel: function(index){
+	    	//刷新表单
+       	    refreshTable(gridId);
+	    }
+	});
 }
 
 //打开对话框(查看)
 function openDialogDetail(title,url,width,height){
-    if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
-        width='auto';
-        height='auto';
-    }else{//如果是PC端，根据用户设置的width和height显示。
+	if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端，就使用自适应大小弹窗
+		width='auto';
+		height='auto';
+	}else{//如果是PC端，根据用户设置的width和height显示。
 
-    }
-    top.layer.open({
-        type: 2,
-        area: [width, height],
-        title: title,
+	}
+	top.layer.open({
+	    type: 2,
+	    area: [width, height],
+	    title: title,
         maxmin: true, //开启最大化最小化按钮
-        content: url ,
-        btn: ['关闭'],
-        cancel: function(index){
+	    content: url ,
+	    btn: ['关闭'],
+	    cancel: function(index){
 
-        }
-    });
+	    }
+	});
 }
 
 
@@ -452,37 +452,37 @@ function openDialogDetail(title,url,width,height){
 
 //打开对话框(添加修改)
 function rowDialog(title,url,gridId,id,width,height){
-    openDialog(title,url+"?id="+id,gridId,width, height);
+	openDialog(title,url+"?id="+id,gridId,width, height);
 }
 
 //打开对话框(查看)
 function rowDialogDetailRefresh(title,url,gridId,id,width,height){
-    var url=preprocessUrl(url,id);
-    openDialogDetailRefresh(title,url,gridId,width,height);
+	var url=preprocessUrl(url,id);
+	openDialogDetailRefresh(title,url,gridId,width,height);
 }
 
 //打开对话框(查看)
 function rowDialogDetail(title,url,width,height){
-    var url=preprocessUrl(url,id);
-    openDialogDetail(title,url,width,height);
+	var url=preprocessUrl(url,id);
+	openDialogDetail(title,url,width,height);
 }
 
 function refreshTable(gridId)
 {
-    search(gridId);
+	search(gridId);
 }
 
 function preprocessUrl(url,id){
-    if(isContains(url,"?id=")||isContains(url,"&id="))
-    {
-        return url;
-    }
-    if(url.indexOf("?")!=-1)
-    {
-        return url+"&id="+id;
-    }else{
-        return url+"?id="+id;
-    }
+	if(isContains(url,"?id=")||isContains(url,"&id="))
+	{
+		return url;
+	}
+	if(url.indexOf("?")!=-1)
+	{
+		return url+"&id="+id;
+	}else{
+		return url+"?id="+id;
+	}
 }
 
 function isContains(str, substr) {
@@ -496,16 +496,16 @@ function isContains(str, substr) {
  * @param id//主键字段
  */
 function detail(title,url, gridId,width,height) {
-    var rowsData =$("#"+gridId).bootstrapTable('getSelections');
+	var rowsData =$("#"+gridId).bootstrapTable('getSelections');
     if (!rowsData || rowsData.length==0) {
-        top.layer.alert('请至少选择一条数据!', {icon: 0, title:'警告'});
-        return;
-    }
+	  top.layer.alert('请至少选择一条数据!', {icon: 0, title:'警告'});
+		return;
+	}
     if (rowsData.length>1) {
-        top.layer.alert('只能选择一条数据!', {icon: 0, title:'警告'});
-        return;
-    }
-
+    	top.layer.alert('只能选择一条数据!', {icon: 0, title:'警告'});
+		return;
+	}
+    
     var id = rowsData[0].id;;
     openDialogView(title,url+"&id="+id,"800px", "500px","");
 }
@@ -552,3 +552,5 @@ function excelExport(url,gridId){
     }
     window.location.href = url;
 }
+
+

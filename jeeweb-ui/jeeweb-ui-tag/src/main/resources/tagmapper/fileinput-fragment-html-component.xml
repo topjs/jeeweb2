@@ -193,12 +193,13 @@
 			 
 			 
 			 function ${path}uploadsuccess(event, data, previewId, index){
-			        ${path}FileList.push({data:data.response.attachment_list[0],previewId:previewId })
-			        
+			 		var response=data.response;
 			        <#if uploadSuccessCallback??&&uploadSuccessCallback!=''>
 			             ${uploadSuccessCallback}(response);
+			        <#else>
+			         ${path}FileList.push({data:response.data[0],previewId:previewId })
+			         update${path}Bind();
 			        </#if>
-			        update${path}Bind();
 			 }
 			 
 			 function update${path}Bind(){

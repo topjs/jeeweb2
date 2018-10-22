@@ -45,9 +45,9 @@
 			 	          <#if queryItem.queryMode=='date'>
 			 	             <#if queryItem.condition=='between'>
 			 	             <div id="${queryItem.name!?replace(".","_")}_date"  class="input-daterange input-group">
-	                                <input <#list queryItem?keys as queryItemKey><#if queryItemKey??&&queryItemKey!='label'&&queryItemKey!='queryMode'&&queryItemKey!=''> ${queryItemKey}='${queryItem[queryItemKey]}'</#if></#list> />
+	                                <input id="${(id)}_${queryItem.name}_start" <#list queryItem?keys as queryItemKey><#if queryItemKey??&&queryItemKey!='label'&&queryItemKey!='queryMode'&&queryItemKey!=''> ${queryItemKey}='${queryItem[queryItemKey]}'</#if></#list> />
 	                                <span class="input-group-addon">到</span>
-	                                <input <#list queryItem?keys as queryItemKey><#if queryItemKey??&&queryItemKey!='label'&&queryItemKey!='queryMode'&&queryItemKey!=''> ${queryItemKey}='${queryItem[queryItemKey]}'</#if></#list> />
+	                                <input id="${(id)}_${queryItem.name}_end" <#list queryItem?keys as queryItemKey><#if queryItemKey??&&queryItemKey!='label'&&queryItemKey!='queryMode'&&queryItemKey!=''> ${queryItemKey}='${queryItem[queryItemKey]}'</#if></#list> />
 	                         </div>
 			 	             <#else> 
 			 	             <div id="${queryItem.name!?replace(".","_")}_date" class="input-group date">
@@ -201,7 +201,7 @@
 			    multikey: "true",
 			    autowidth: true,
 			    <#if editable??&&editable>
-			    editurl: 'clientArray',
+			    editurl: '${editurl}',
 			    onSelectRow: ${(id)}EditRow,
 			    </#if>
 			    <#if onSelectRow??&&onSelectRow!=''>

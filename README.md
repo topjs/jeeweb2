@@ -2,7 +2,9 @@ JeeWeb敏捷开发平台
 ===============
 * 	QQ交流群： 570062301（满）、522959928
 * 	官方网站： [https://www.jeeweb.cn](https://www.jeeweb.cn)
+* 	文档地址： [https://doc.jeeweb.cn](https://doc.jeeweb.cn)
 * 	项目演示： [https://demo.jeeweb.cn](https://demo.jeeweb.cn)
+* 	前后端分离版本项目演示： [http://vuedemo.jeeweb.cn](http://vuedemo.jeeweb.cn)
 
 简介
 -----------------------------------
@@ -87,13 +89,6 @@ JeeWeb 功能特点
 * 导入项目到Idea,(项目目前使用分模块开发，我们建议是用IDEA开发).
 * 修改数据库配置文件application.yml中的账号密码.
 * 启动项目,管理员账号admin/密码123456
-
-技术文档
------------------------------------
-* [JeeWeb 开发环境搭建入门(完善中...)]
-* [JeeWeb 开发手册(完善中...)]
-* [JeeWeb  常见问题贴(完善中...)]
-* [JeeWeb 视频教程(完善中...)]
 
 平台目录结构说明
 -----------------------------------

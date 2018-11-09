@@ -5,13 +5,13 @@
     <parent>
         <artifactId>jeeweb-ui</artifactId>
         <groupId>cn.jeeweb</groupId>
-        <version>1.0.4.RELEASE</version>
+        <version>1.0.5.RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.jeeweb</groupId>
     <artifactId>jeeweb-beetl-tag</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.4.RELEASE</version>
+    <version>1.0.5.RELEASE</version>
     <url>http://www.jeeweb.cn</url>
 
     <properties>
@@ -22,7 +22,7 @@
         <dependency>
             <groupId>cn.jeeweb</groupId>
             <artifactId>jeeweb-common-utils</artifactId>
-            <version>1.0.4.RELEASE</version>
+            <version>1.0.5.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>com.ibeetl</groupId>

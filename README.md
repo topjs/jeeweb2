@@ -5,7 +5,7 @@ JeeWeb敏捷开发平台
 * 	文档地址： [https://doc.jeeweb.cn](https://doc.jeeweb.cn)
 * 	项目演示： [https://demo.jeeweb.cn](https://demo.jeeweb.cn)
 * 	前后端分离版本项目演示： [http://vuedemo.jeeweb.cn](http://vuedemo.jeeweb.cn)
-
+*   分离开发前端项目地址：[https://gitee.com/dataact/jeeweb-vue-admin](https://gitee.com/dataact/jeeweb-vue-admin)
 简介
 -----------------------------------
 JeeWeb是一款基于SpringBoot 2+Spring+Mybatis+Hibernate的敏捷开发系统；它是一款具有代码生成功能的智能快速开发平台；是以Spring Framework为核心容器，Spring MVC为模型视图控制器，Hibernate为数据访问层， Apache Shiro为权限授权层，Ehcahe对常用数据进行缓存，Disruptor作为并发框架，Bootstrap作为前端框架的优秀 **开源** 系统。

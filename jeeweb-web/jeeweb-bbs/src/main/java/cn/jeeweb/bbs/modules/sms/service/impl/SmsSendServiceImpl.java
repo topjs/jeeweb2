@@ -74,4 +74,22 @@ public class SmsSendServiceImpl implements ISmsSendService {
 			smsHelper.sendAsyncSms(smsSendLog.getId(),phone,template.getTemplateContent(),null,datas);
 		}
 	}
+
+	@Override
+	public void send(String eventId, String phone, String code, Map<String, Object> datas) {
+		String[] phones = { phone };
+		send(eventId,phones,code,datas);
+	}
+
+	@Override
+	public void send(String eventId, String[] phones, String code, Map<String, Object> datas) {
+		SmsTemplate template = smsTemplateService.selectOne(new EntityWrapper<SmsTemplate>().eq("code", code));
+		if (datas == null) {
+			datas = new HashMap<>();
+		}
+		for (String phone: phones) {
+			// 发送邮件,这里以后需要判断类型
+			smsHelper.sendAsyncSms(eventId, phone, template.getTemplateContent(), null, datas);
+		}
+	}
 }

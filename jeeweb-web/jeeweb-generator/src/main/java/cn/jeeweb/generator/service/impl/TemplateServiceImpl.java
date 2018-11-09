@@ -56,7 +56,6 @@ public class TemplateServiceImpl  extends CommonServiceImpl<TemplateMapper,Templ
             Table table = tableService.selectOne(tableEntityWrapper);
             Scheme scheme = new Scheme();
             scheme.setEntityName("TestTemplate");
-            scheme.setTableName("t_test_template");
             scheme.setFunctionAuthor("测试");
             scheme.setFunctionDesc("测试");
             scheme.setFunctionName("测试");

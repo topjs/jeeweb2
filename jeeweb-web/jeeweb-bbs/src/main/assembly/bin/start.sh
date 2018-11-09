@@ -9,7 +9,7 @@ DEPLOY_DIR=`pwd`
 CONF_DIR=$DEPLOY_DIR/conf
 
 #SERVER_PORT=`sed -nr '/port: [0-9]+/ s/.*port: +([0-9]+).*/\1/p' conf/application.yml`
-SERVER_PORT= "8081"
+SERVER_PORT='8081'
 
 PIDS=`ps -f | grep java | grep "$CONF_DIR" |awk '{print $2}'`
 if [ "$1" = "status" ]; then

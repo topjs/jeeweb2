@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>JeeWeb敏捷开发平台|Jeeweb 官网 一个集成了代码生成器的JAVA WEB开源框架-Jeeweb社区</title>
+  <title>JeeWeb敏捷开发平台|JeeWeb 官网 一个集成了代码生成器的JAVA WEB开源框架-JeeWeb社区</title>
   <meta name="keywords" content="layui,ui,ui框架,前端框架,JS组件">
   <meta name="description" content="JeeWeb是一款基于SpringMVC+Spring+Hibernate的敏捷开发系统；它是一款具有代码生成功能的智能快速开发平台；是以Spring Framework为核心容器，Spring MVC为模型视图控制器，Hibernate为数据访问层， Apache Shiro为权限授权层，Ehcahe对常用数据进行缓存，Disruptor作为并发框架，Bootstrap作为前端框架的优秀 开源 系统。">
   <meta name="renderer" content="webkit">
@@ -30,21 +30,20 @@
         <a href="${ctx}/example">案例<!-- <span class="layui-badge-dot"></span> --></a>
       </li>
       <li class="layui-nav-item ">
-        <a href="http://demo.jeeweb.cn/" target="_blank">示例<!-- <span class="layui-badge-dot"></span> --></a>
-      </li>
-      <li class="layui-nav-item layui-hide-xs" style="display: none">
-        <a href="${ctx}/posts/extend/">扩展<span class="layui-badge-dot"></span></a>
-      </li>
-      <li class="layui-nav-item layui-hide-xs">
-        <a href="${ctx}/posts/" target="_blank">社区</a>
-      </li>
-      <li class="layui-nav-item"  style="display: none">
         <!--<span class="layui-badge-dot" style="margin: -4px 3px 0;"></span>-->
-        <a href="javascript:;">周边</a>
+        <a href="javascript:;">示例</a>
+        <dl class="layui-nav-child">
+          <dd class="layui-show-xs"><a href="https://demo.jeeweb.cn/" target="_blank">常规版</a><hr></dd>
+          <dd class="layui-show-xs"><a href="http://vuedemo.jeeweb.cn/" target="_blank">前后端分离版</a></dd>
+        </dl>
+      </li>
+      <li class="layui-nav-item" style="display: none;">
+        <!--<span class="layui-badge-dot" style="margin: -4px 3px 0;"></span>-->
+        <a href="javascript:;">示例</a>
         <dl class="layui-nav-child">
 
-          <dd class="layui-hide-sm layui-show-xs"><a href="${ctx}/posts/extend/">扩展组件</a></dd>
-          <dd class="layui-hide-sm layui-show-xs"><a href="${ctx}/posts/" target="_blank">社区交流</a><hr></dd>
+          <dd class="layui-show-xs"><a href="https://demo.jeeweb.cn/">常规版</a></dd>
+          <dd class="layui-show-xs"><a href="http://vuedemo.jeeweb.cn/" target="_blank">前后端分离版</a><hr></dd>
 
           <dd><a href="//layim.layui.com/" target="_blank">即时聊天</a></dd>
 
@@ -57,6 +56,12 @@
           <dd><a href="/alone.html" target="_blank">独立组件</a></dd>
           <dd><a href="${ctx}/posts/jie/24209/" target="_blank">Axure组件</a></dd>
         </dl>
+      </li>
+      <li class="layui-nav-item layui-hide-xs" style="display: none">
+        <a href="${ctx}/posts/extend/">扩展<span class="layui-badge-dot"></span></a>
+      </li>
+      <li class="layui-nav-item layui-hide-xs">
+        <a href="${ctx}/posts/" target="_blank">社区</a>
       </li>
 
       <li class="layui-nav-item layui-hide-xs" lay-unselect  style="display: none">
@@ -158,6 +163,14 @@
         ,version: "3.0.0"
     }).use('global');
 </script>
-
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?efb9a8c5d5e8c9815698fe1520817116";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
 </body>
 </html>

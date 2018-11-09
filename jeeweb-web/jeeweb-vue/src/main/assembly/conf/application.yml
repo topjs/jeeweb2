@@ -16,7 +16,7 @@ spring:
     host: smtp.exmail.qq.com
     username: jeeweb@jeeweb.cn
     sender: jeeweb@jeeweb.cn
-    password: Dataact2017
+    password: 你的密码
     port: 465
     properties:
       mail:
@@ -49,7 +49,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: dataact2017
+    password: 你的密码
     url: jdbc:mysql://localhost:3306/jeeweb_vue?useUnicode=true&characterEncoding=UTF-8
     type: com.alibaba.druid.pool.DruidDataSource   #这里是配置druid连接池，以下都是druid的配置信息
     filters: stat,wall,log4j
@@ -138,7 +138,7 @@ oss:
    #阿里云api的内或外网域名
    endpoint: oss-cn-beijing.aliyuncs.com
    #阿里云api的密钥access key id
-   access-key-id: LTAI2Yt5bXGCQf6k
+   access-key-id: 你的密钥
    #阿里云api的密钥access key secret
    access-key-secret: C6Y8xAFaZdPa9KQphnWnJSgckd8lq5
    #阿里云api的bucket名称
@@ -153,7 +153,7 @@ sms:
  sign-name: 立行教育
  aliyun:
    #阿里云api的密钥access key id
-   access-key-id: LTAI2Yt5bXGCQf6k
+   access-key-id: 你的密钥
    #阿里云api的密钥access key secret
    access-key-secret: C6Y8xAFaZdPa9KQphnWnJSgckd8lq5
 

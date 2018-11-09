@@ -15,6 +15,7 @@
         <module>jeeweb-generator</module>
         <module>jeeweb-admin</module>
         <module>jeeweb-bbs</module>
+        <module>jeeweb-vue</module>
     </modules>
     <build>
         <finalName>${project.artifactId}</finalName>

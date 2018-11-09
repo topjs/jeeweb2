@@ -7,8 +7,6 @@ spring:
     static-locations: file:${oss.local.upload-file-path}
   session:
      store-type: none
-  mvc:
-    throw-exception-if-no-handler-found: true
   devtools:
     restart:
       enabled: true        #这里是为了热部署的，与mybatis是无关的
@@ -18,7 +16,8 @@ spring:
     host: smtp.exmail.qq.com
     username: jeeweb@jeeweb.cn
     sender: jeeweb@jeeweb.cn
-    password: 您的密码
+    password: 你的密码
+    port: 465
     properties:
       mail:
         smtp:
@@ -26,6 +25,10 @@ spring:
           starttls:
             enable: true
             required: true
+          socketFactory:
+             port: 465
+             class: javax.net.ssl.SSLSocketFactory
+             fallback: false
   redis:   #redis 配置
         host: localhost
         port: 6379
@@ -38,10 +41,10 @@ spring:
             max-wait: 10000
   messages: #国际化
       basename: i18n/messages,i18n/ValidationMessages
-  mvc:   #jsp 支持
-    view:
-      suffix: .jsp
-      prefix: /WEB-INF/webpage/
+  mvc: # 捕获404
+    throw-exception-if-no-handler-found: true
+  resources:
+   add-mappings: false
   thymeleaf: #关闭默认模板引擎
     cache: false
     enabled: false
@@ -53,7 +56,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: gliwang123456
+    password: 你的数据库密码
     url: jdbc:mysql://localhost:3306/jeeweb_bbs?useUnicode=true&characterEncoding=UTF-8
     type: com.alibaba.druid.pool.DruidDataSource   #这里是配置druid连接池，以下都是druid的配置信息
     filters: stat,wall,log4j
@@ -154,7 +157,7 @@ oss:
    #阿里云api的内或外网域名
    endpoint: oss-cn-beijing.aliyuncs.com
    #阿里云api的密钥access key id
-   access-key-id: LTAI2Yt5bXGCQf6k
+   access-key-id: 你的密钥
    #阿里云api的密钥access key secret
    access-key-secret: C6Y8xAFaZdPa9KQphnWnJSgckd8lq5
    #阿里云api的bucket名称
@@ -169,7 +172,7 @@ sms:
  sign-name: 立行教育
  aliyun:
    #阿里云api的密钥access key id
-   access-key-id: LTAI2Yt5bXGCQf6k
+   access-key-id: 你的密钥
    #阿里云api的密钥access key secret
    access-key-secret: C6Y8xAFaZdPa9KQphnWnJSgckd8lq5
 

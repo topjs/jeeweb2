@@ -1,6 +1,7 @@
 package cn.jeeweb.web.modules.sms.entity;
 
 import cn.jeeweb.common.mvc.entity.AbstractEntity;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
@@ -62,6 +63,7 @@ public class SmsSendLog extends AbstractEntity<String> {
 	private String delFlag;
     /**响应时间*/
     @TableField(value = "response_date")
+	@JSONField(format="yyyy-MM-dd HH:mm:ss")
 	private Date responseDate;
 	
 	/**

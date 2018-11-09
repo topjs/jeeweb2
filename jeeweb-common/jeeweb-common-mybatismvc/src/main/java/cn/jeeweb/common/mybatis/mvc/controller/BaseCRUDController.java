@@ -86,7 +86,7 @@ public abstract class BaseCRUDController<Entity extends AbstractEntity<ID>, ID e
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "ajaxList", method = { RequestMethod.GET, RequestMethod.POST })
-	@PageableDefaults(sort = "id=desc")
+	//@PageableDefaults(sort = "id=desc") 不再默认配置
 	private void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
 						  HttpServletResponse response) throws IOException {
 		EntityWrapper<Entity> entityWrapper = new EntityWrapper<Entity>(entityClass);

@@ -1,6 +1,7 @@
 package cn.jeeweb.web.modules.email.entity;
 
 import cn.jeeweb.common.mvc.entity.AbstractEntity;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
@@ -46,6 +47,7 @@ public class EmailSendLog extends AbstractEntity<String> {
 	private String sendCode;
     /**响应时间*/
     @TableField(value = "response_date")
+	@JSONField(format="yyyy-MM-dd HH:mm:ss")
 	private Date responseDate;
     /**重发次数*/
     @TableField(value = "try_num")

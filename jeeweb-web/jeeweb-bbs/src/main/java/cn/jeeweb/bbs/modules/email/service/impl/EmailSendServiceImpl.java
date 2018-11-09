@@ -119,4 +119,27 @@ public class EmailSendServiceImpl implements IEmailSendService {
         }
         return content;
     }
+
+    @Override
+    public void send(String eventId, String email, String code, Map<String, Object> datas) {
+        String[] emails = { email };
+        send(eventId,emails,code,datas);
+    }
+
+    @Override
+    public void send(String eventId, String[] emails, String code, Map<String, Object> datas) {
+        EmailTemplate template = emailTemplateService.selectOne(new EntityWrapper<EmailTemplate>().eq("code", code));
+        if (datas == null) {
+            datas = new HashMap<>();
+        }
+        if (template == null){
+            return ;
+        }
+        String content = parseContent(StringEscapeUtils.unescapeHtml4(template.getTemplateContent()), datas);
+        String subject = parseContent(StringEscapeUtils.unescapeHtml4(template.getTemplateSubject()), datas);
+        for (String email: emails) {
+            // 发送邮件
+            sendEmail(eventId,email,subject,content);
+        }
+    }
 }

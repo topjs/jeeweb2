@@ -28,7 +28,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
      * 编码拦截器
      * @return
      */
-    @Bean
+    //@Bean
     public HandlerInterceptor encodingInterceptor(){
         EncodingInterceptor encodingInterceptor=new EncodingInterceptor();
         return encodingInterceptor;
@@ -38,7 +38,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
      * 安全验证拦截器
      * @return
      */
-    @Bean
+    //@Bean
     public PermissionInterceptorAdapter permissionInterceptorAdapter(){
         PermissionInterceptorAdapter permissionInterceptorAdapter=new PermissionInterceptorAdapter();
         return permissionInterceptorAdapter;

@@ -568,7 +568,7 @@ CREATE TABLE `sys_data_source` (
 -- ----------------------------
 -- Records of sys_data_source
 -- ----------------------------
-INSERT INTO `sys_data_source` VALUES ('402880e74e064fc5014e0652f72b0001', 'neiwangbaogong', '微信运营数据库', 'com.mysql.jdbc.Driver', 'jdbc:mysql://localhost:3306/attendance?useUnicode=true&amp;amp;amp;amp;amp;characterEncoding=UTF-8', 'root', 'gliwang123456', 'mysql', 'attendance', null, null, '4028ea815a3d2a8c015a3d2f8d2a0002', '2017-08-03 08:40:26', null, '0');
+INSERT INTO `sys_data_source` VALUES ('402880e74e064fc5014e0652f72b0001', 'neiwangbaogong', '微信运营数据库', 'com.mysql.jdbc.Driver', 'jdbc:mysql://localhost:3306/attendance?useUnicode=true&amp;amp;amp;amp;amp;characterEncoding=UTF-8', 'root', '你的数据库密码', 'mysql', 'attendance', null, null, '4028ea815a3d2a8c015a3d2f8d2a0002', '2017-08-03 08:40:26', null, '0');
 INSERT INTO `sys_data_source` VALUES ('8a8aada9486347c001486401180a0003', 'PMS', 'sap db', 'oracle.jdbc.driver.OracleDriver', 'jdbc:oracle:thin:@localhost:1521:oral', 'PMS', 'tz', 'oracle', 'PMS', null, null, null, null, null, '0');
 
 -- ----------------------------

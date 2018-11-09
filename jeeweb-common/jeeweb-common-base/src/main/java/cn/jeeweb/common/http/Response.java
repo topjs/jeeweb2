@@ -58,7 +58,7 @@ public class Response extends HashMap<String,Object> implements Serializable {
 
    public Response putObject(Object object, String includesProperties){
         if (object!=null) {
-            FastjsonPropertyPreFilter fastjsonPropertyPreFilter = new FastjsonPropertyPreFilter(object.getClass().getClass(), includesProperties);
+            FastjsonPropertyPreFilter fastjsonPropertyPreFilter = new FastjsonPropertyPreFilter(object.getClass(), includesProperties);
             FastjsonUnXssFilter fastjsonUnXssFilter = new FastjsonUnXssFilter();
             SerializeFilter[] filters = {fastjsonPropertyPreFilter, fastjsonUnXssFilter};
             String objectStr = JSON.toJSONString(object, filters);

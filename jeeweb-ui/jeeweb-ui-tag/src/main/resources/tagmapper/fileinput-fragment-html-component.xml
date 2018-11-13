@@ -197,7 +197,7 @@
 			        <#if uploadSuccessCallback??&&uploadSuccessCallback!=''>
 			             ${uploadSuccessCallback}(response);
 			        <#else>
-			         ${path}FileList.push({data:response.data[0],previewId:previewId })
+			         ${path}FileList.push({data:response.attachment_list[0],previewId:previewId })
 			         update${path}Bind();
 			        </#if>
 			 }

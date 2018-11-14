@@ -29,6 +29,7 @@ public class SignInStatusServiceImpl  extends CommonServiceImpl<SignInStatusMapp
     public SignInStatus selectLastSignInByUid(String uid) {
         EntityWrapper<SignInStatus> entityWrapper=new EntityWrapper<>(SignInStatus.class);
         entityWrapper.eq("signUid",uid);
+        entityWrapper.orderBy("lastSignTime");
         SignInStatus signInStatus = selectOne(entityWrapper);
         return signInStatus;
     }

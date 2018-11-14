@@ -7,6 +7,7 @@ import cn.jeeweb.common.mybatis.mvc.service.impl.TreeCommonServiceImpl;
 
 import java.util.List;
 
+import cn.jeeweb.common.mybatis.mvc.wrapper.EntityWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,5 +33,26 @@ public class MenuServiceImpl extends TreeCommonServiceImpl<MenuMapper, Menu, Str
 	@Override
 	public List<String> findPermissionByRoleId(String roleId) {
 		return baseMapper.findPermissionByRoleId(roleId);
+	}
+
+	@Override
+	public void generateButton(String menuId,
+							   String parentPermission,
+							   String[] permissions,
+							   String[] permissionTitles) {
+		EntityWrapper<Menu> deleteEntityWrapper = new EntityWrapper();
+		deleteEntityWrapper.eq("parent_id",menuId);
+		deleteEntityWrapper.eq("type",3);
+		delete(deleteEntityWrapper);
+		for (int i = 0; i < permissions.length; i++) {
+			Menu menu = new Menu();
+			menu.setParentId(menuId);
+			menu.setName(permissionTitles[i]);
+			menu.setPermission(parentPermission + ":" + permissions[i]);
+			menu.setSort(i);
+			menu.setType("3");
+			menu.setEnabled((short) 1);
+			insert(menu);
+		}
 	}
 }

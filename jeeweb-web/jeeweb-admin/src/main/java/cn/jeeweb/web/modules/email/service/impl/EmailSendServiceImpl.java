@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.internet.MimeMessage;
 import java.io.StringReader;
@@ -49,12 +51,14 @@ public class EmailSendServiceImpl implements IEmailSendService {
     private String sender; //发送的人
 
     @Override
+    @Transactional(propagation= Propagation.NOT_SUPPORTED)
     public void send(String email, String code, Map<String, Object> datas) {
         String[] emails = { email };
         send(emails,code,datas);
     }
 
     @Override
+    @Transactional(propagation= Propagation.NOT_SUPPORTED)
     public void send(String[] emails, String code, Map<String, Object> datas) {
         EmailTemplate template = emailTemplateService.selectOne(new EntityWrapper<EmailTemplate>().eq("code", code));
         if (datas == null) {

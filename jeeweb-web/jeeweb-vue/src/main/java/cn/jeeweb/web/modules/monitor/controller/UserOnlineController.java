@@ -26,6 +26,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping(value = "/monitor/user/online")
 @RequiresPathPermission("monitor:user:online")
+@Log(title = "在线用户")
 public class UserOnlineController extends BaseController{
 
 	@Autowired

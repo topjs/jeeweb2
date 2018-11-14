@@ -1,5 +1,7 @@
 package cn.jeeweb.bbs.modules.product.controller;
 
+import cn.jeeweb.bbs.aspectj.annotation.Log;
+import cn.jeeweb.bbs.aspectj.enums.LogType;
 import cn.jeeweb.bbs.common.bean.ResponseError;
 import cn.jeeweb.bbs.modules.email.entity.EmailTemplate;
 import cn.jeeweb.bbs.modules.product.service.IProductService;
@@ -13,6 +15,7 @@ import cn.jeeweb.common.query.annotation.PageableDefaults;
 import cn.jeeweb.common.query.data.PropertyPreFilterable;
 import cn.jeeweb.common.query.data.Queryable;
 import cn.jeeweb.common.query.utils.QueryableConvertUtils;
+import cn.jeeweb.common.security.shiro.authz.annotation.RequiresMethodPermissions;
 import cn.jeeweb.common.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.common.utils.StringUtils;
 import com.alibaba.fastjson.JSON;
@@ -44,6 +47,7 @@ import java.util.List;
 @RequestMapping("${jeeweb.admin.url.prefix}/product")
 @RequiresPathPermission("product")
 @ViewPrefix("modules/product")
+@Log(title = "产品管理")
 public class ProductController extends BaseBeanController<Product> {
 
     @Autowired
@@ -51,6 +55,7 @@ public class ProductController extends BaseBeanController<Product> {
 
 
     @GetMapping
+    @RequiresMethodPermissions("view")
     public ModelAndView list(Model model, HttpServletRequest request, HttpServletResponse response) {
         return displayModelAndView("list");
     }
@@ -64,7 +69,9 @@ public class ProductController extends BaseBeanController<Product> {
      */
     @RequestMapping(value = "ajaxList", method = { RequestMethod.GET, RequestMethod.POST })
     @PageableDefaults(sort = "id=desc")
-    private void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
+    @Log(logType = LogType.SELECT)
+    @RequiresMethodPermissions("list")
+    public void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
         EntityWrapper<Product> entityWrapper = new EntityWrapper<>(entityClass);
         propertyPreFilterable.addQueryProperty("id");
@@ -83,9 +90,14 @@ public class ProductController extends BaseBeanController<Product> {
     }
 
     @PostMapping("add")
+    @Log(logType = LogType.INSERT)
+    @RequiresMethodPermissions("add")
     public Response add(Product entity, BindingResult result,
                            HttpServletRequest request, HttpServletResponse response) {
-        return doSave(entity, request, response, result);
+        // 验证错误
+        this.checkError(entity,result);
+        productService.insert(entity);
+        return Response.ok("添加成功");
     }
 
     @GetMapping(value = "{id}/update")
@@ -97,43 +109,27 @@ public class ProductController extends BaseBeanController<Product> {
     }
 
     @PostMapping("{id}/update")
+    @Log(logType = LogType.UPDATE)
+    @RequiresMethodPermissions("update")
     public Response update(Product entity, BindingResult result,
                                  HttpServletRequest request, HttpServletResponse response) {
-        return doSave(entity, request, response, result);
-    }
-
-    @PostMapping("/save")
-    public Response doSave(Product entity, HttpServletRequest request, HttpServletResponse response,
-                                 BindingResult result) {
-        if (hasError(entity, result)) {
-            // 错误提示
-            String errorMsg = errorMsg(result);
-            if (!StringUtils.isEmpty(errorMsg)) {
-                return Response.error(ResponseError.NORMAL_ERROR,errorMsg);
-            } else {
-                return Response.error(ResponseError.NORMAL_ERROR,"保存失败");
-            }
-        }
-        try {
-            if (StringUtils.isEmpty(entity.getId())) {
-                productService.insert(entity);
-            } else {
-                productService.insertOrUpdate(entity);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Response.error(ResponseError.NORMAL_ERROR,"保存失败!<br />原因:" + e.getMessage());
-        }
-        return Response.ok("保存成功");
+        // 验证错误
+        this.checkError(entity,result);
+        productService.insertOrUpdate(entity);
+        return Response.ok("更新成功");
     }
 
     @PostMapping("{id}/delete")
+    @Log(logType = LogType.DELETE)
+    @RequiresMethodPermissions("delete")
     public Response delete(@PathVariable("id") String id) {
         productService.deleteById(id);
         return Response.ok("删除成功");
     }
 
     @PostMapping("batch/delete")
+    @Log(logType = LogType.DELETE)
+    @RequiresMethodPermissions("delete")
     public Response batchDelete(@RequestParam("ids") String[] ids) {
         List<String> idList = java.util.Arrays.asList(ids);
         productService.deleteBatchIds(idList);

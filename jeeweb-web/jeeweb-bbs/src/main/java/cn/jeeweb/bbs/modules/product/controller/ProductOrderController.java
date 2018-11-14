@@ -1,5 +1,7 @@
 package cn.jeeweb.bbs.modules.product.controller;
 
+import cn.jeeweb.bbs.aspectj.annotation.Log;
+import cn.jeeweb.bbs.aspectj.enums.LogType;
 import cn.jeeweb.bbs.common.bean.ResponseError;
 import cn.jeeweb.bbs.modules.product.service.IProductOrderService;
 import cn.jeeweb.bbs.modules.product.entity.ProductOrder;
@@ -12,6 +14,7 @@ import cn.jeeweb.common.query.annotation.PageableDefaults;
 import cn.jeeweb.common.query.data.PropertyPreFilterable;
 import cn.jeeweb.common.query.data.Queryable;
 import cn.jeeweb.common.query.utils.QueryableConvertUtils;
+import cn.jeeweb.common.security.shiro.authz.annotation.RequiresMethodPermissions;
 import cn.jeeweb.common.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.common.utils.StringUtils;
 import com.alibaba.fastjson.JSON;
@@ -43,6 +46,7 @@ import java.util.List;
 @RequestMapping("${jeeweb.admin.url.prefix}/product/order")
 @RequiresPathPermission("product:order")
 @ViewPrefix("modules/product")
+@Log(title = "产品订单管理")
 public class ProductOrderController extends BaseBeanController<ProductOrder> {
 
     @Autowired
@@ -50,6 +54,7 @@ public class ProductOrderController extends BaseBeanController<ProductOrder> {
 
 
     @GetMapping
+    @RequiresMethodPermissions("view")
     public ModelAndView list(Model model, HttpServletRequest request, HttpServletResponse response) {
         return displayModelAndView("order_list");
     }
@@ -62,7 +67,9 @@ public class ProductOrderController extends BaseBeanController<ProductOrder> {
      * @throws IOException
      */
     @RequestMapping(value = "ajaxList", method = { RequestMethod.GET, RequestMethod.POST })
-    private void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
+    @Log(logType = LogType.SELECT)
+    @RequiresMethodPermissions("list")
+    public void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
         EntityWrapper<ProductOrder> entityWrapper = new EntityWrapper<>(entityClass);
         propertyPreFilterable.addQueryProperty("id");
@@ -77,12 +84,16 @@ public class ProductOrderController extends BaseBeanController<ProductOrder> {
     }
 
     @PostMapping("{id}/delete")
+    @Log(logType = LogType.DELETE)
+    @RequiresMethodPermissions("delete")
     public Response delete(@PathVariable("id") String id) {
         productOrderService.deleteById(id);
         return Response.ok("删除成功");
     }
 
     @PostMapping("batch/delete")
+    @Log(logType = LogType.DELETE)
+    @RequiresMethodPermissions("delete")
     public Response batchDelete(@RequestParam("ids") String[] ids) {
         List<String> idList = java.util.Arrays.asList(ids);
         productOrderService.deleteBatchIds(idList);

@@ -10,6 +10,8 @@ import cn.jeeweb.common.sms.disruptor.SmsHelper;
 import cn.jeeweb.common.utils.mapper.JsonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -37,12 +39,14 @@ public class SmsSendServiceImpl implements ISmsSendService {
 	private SmsHelper smsHelper; //自动注入的Bean
 
 	@Override
+	@Transactional(propagation= Propagation.NOT_SUPPORTED)
 	public void send(String phone, String code, Map<String, Object> datas) {
 		String[] phones = { phone };
 		send(phones,code,datas);
 	}
 
 	@Override
+	@Transactional(propagation= Propagation.NOT_SUPPORTED)
 	public void send(String[] phones, String code, Map<String, Object> datas) {
 		SmsTemplate template = smsTemplateService.selectOne(new EntityWrapper<SmsTemplate>().eq("code", code));
 		if (datas == null) {

@@ -1,7 +1,5 @@
 package cn.jeeweb.bbs.modules.sys.controller;
 
-import cn.jeeweb.bbs.aspectj.annotation.Log;
-import cn.jeeweb.bbs.aspectj.enums.LogType;
 import cn.jeeweb.common.http.Response;
 import cn.jeeweb.common.mvc.annotation.ViewPrefix;
 import cn.jeeweb.common.mvc.controller.BaseController;
@@ -11,17 +9,19 @@ import cn.jeeweb.common.query.data.PageImpl;
 import cn.jeeweb.common.query.data.PropertyPreFilterable;
 import cn.jeeweb.common.query.data.Queryable;
 import cn.jeeweb.common.security.shiro.authz.annotation.RequiresMethodPermissions;
+import cn.jeeweb.common.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.common.security.shiro.session.SessionDAO;
 import cn.jeeweb.common.utils.StringUtils;
+import cn.jeeweb.bbs.aspectj.annotation.Log;
+import cn.jeeweb.bbs.aspectj.enums.LogType;
 import cn.jeeweb.bbs.modules.sys.entity.UserOnline;
+import cn.jeeweb.bbs.security.shiro.session.mgt.OnlineSession;
 import com.alibaba.fastjson.JSON;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import cn.jeeweb.common.security.shiro.authz.annotation.RequiresPathPermission;
-import cn.jeeweb.bbs.security.shiro.session.mgt.OnlineSession;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -77,6 +77,7 @@ public class UserOnlineController extends BaseController{
 	@RequestMapping(value = "ajaxList", method = { RequestMethod.GET, RequestMethod.POST })
 	@PageableDefaults(sort = "id=desc")
 	@Log(title = "在线用户",logType = LogType.SELECT)
+	@RequiresMethodPermissions("list")
 	private void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
 						  HttpServletResponse response) throws IOException {
 		// 预处理
@@ -88,6 +89,7 @@ public class UserOnlineController extends BaseController{
 	@RequestMapping("/forceLogout")
 	@ResponseBody
 	@Log(title = "用户强制退出")
+	@RequiresMethodPermissions("force:logout")
 	public Response forceLogout(@RequestParam(value = "ids") String[] ids) {
 		for (String id : ids) {
 			OnlineSession onlineSession = (OnlineSession) sessionDAO.readSession(id);

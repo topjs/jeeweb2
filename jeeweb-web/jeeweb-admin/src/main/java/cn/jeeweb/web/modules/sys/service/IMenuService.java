@@ -42,4 +42,9 @@ public interface IMenuService extends ITreeCommonService<Menu, String> {
 	 * @return
 	 */
 	List<String> findPermissionByRoleId(String roleId);
+
+	void generateButton(String menuId,
+						String parentPermission,
+						String[] permissions,
+						String[] permissionTitles);
 }

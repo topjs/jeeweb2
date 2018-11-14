@@ -56,6 +56,7 @@ import java.util.Map;
 @RequestMapping("monitor/login/log")
 @ViewPrefix("modules/sys/log")
 @RequiresPathPermission("monitor:login:log")
+@Log(title = "登陆日志")
 public class LoginLogController extends BaseBeanController<LoginLog> {
 
     @Autowired

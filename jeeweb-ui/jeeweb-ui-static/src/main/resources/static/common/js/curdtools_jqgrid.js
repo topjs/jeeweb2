@@ -346,15 +346,22 @@ function rowConfirm(title,url,infoid,gridId,tipMsg) {
 function reset(gridId) {
     $("#" + gridId + "Query").find(":input").val("");
     //运行搜索
-    search(gridId);
+    searchByPage(gridId,1);
 }
-
-
 /**
  *搜索
  * @param gridId
  */
-function search(gridId) {
+function search(gridId){
+    var page = $("#"+gridId).getGridParam('page'); // 获取当前页码
+    searchByPage(gridId,page);
+}
+/**
+ *搜索
+ * @param gridId
+ * @param page 当前页码
+ */
+function searchByPage(gridId,page) {
     var queryParams = {};
     var queryFields=$('#queryFields').val();
     queryParams['queryFields'] = queryFields;
@@ -376,12 +383,15 @@ function search(gridId) {
 		var key = "query." + $(this).attr('name') + "||" + condition;
 		queryParams[key] = queryParams[$(this).attr('name')];
 	});
+	if (page == undefined){
+        page = 1;
+	}
     //刷新
     //传入查询条件参数
     $("#"+gridId).jqGrid('setGridParam',{
         datatype:'json',
         postData:queryParams, //发送数据
-        page:1
+        page:page
     }).trigger("reloadGrid"); //重新载入
 }
 

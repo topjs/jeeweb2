@@ -266,7 +266,7 @@ CREATE TABLE `generator_data_source` (
 -- ----------------------------
 -- Records of generator_data_source
 -- ----------------------------
-INSERT INTO `generator_data_source` VALUES ('e3a81b00c064430a8623de0f576d31ef', 'jeewebbbs', 'jeeweb升级版本', 'com.mysql.jdbc.Driver', 'jdbc:mysql://localhost/jeeweb_bbs?useUnicode=true&amp;amp;characterEncoding=UTF-8', 'root', '你的数据库密码', 'MySql', 'jeeweb_bbs', null, null, null, null, null, null);
+INSERT INTO `generator_data_source` VALUES ('e3a81b00c064430a8623de0f576d31ef', 'jeewebbbs', 'jeeweb升级版本', 'com.mysql.jdbc.Driver', 'jdbc:mysql://localhost/jeeweb_bbs?useUnicode=true&amp;amp;characterEncoding=UTF-8', 'root', '您的密码', 'MySql', 'jeeweb_bbs', null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for generator_scheme

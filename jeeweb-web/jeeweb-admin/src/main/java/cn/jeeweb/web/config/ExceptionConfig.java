@@ -1,4 +1,4 @@
-package cn.jeeweb.bbs.config;
+package cn.jeeweb.web.config;
 
 import cn.jeeweb.common.http.Response;
 import cn.jeeweb.common.utils.ServletUtils;

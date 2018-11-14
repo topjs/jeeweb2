@@ -1,11 +1,6 @@
 package cn.jeeweb.bbs.modules.sys.controller;
 
-import cn.jeeweb.bbs.aspectj.annotation.Log;
-import cn.jeeweb.bbs.aspectj.enums.LogType;
-import cn.jeeweb.bbs.common.bean.ResponseError;
-import cn.jeeweb.bbs.modules.sys.data.SysDatabaseEnum;
-import cn.jeeweb.bbs.modules.sys.service.IMenuService;
-import cn.jeeweb.bbs.modules.sys.entity.Menu;
+import cn.jeeweb.beetl.tags.dict.DictUtils;
 import cn.jeeweb.common.http.PageResponse;
 import cn.jeeweb.common.http.Response;
 import cn.jeeweb.common.mvc.annotation.ViewPrefix;
@@ -23,6 +18,10 @@ import cn.jeeweb.common.security.shiro.authz.annotation.RequiresMethodPermission
 import cn.jeeweb.common.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.common.utils.ObjectUtils;
 import cn.jeeweb.common.utils.StringUtils;
+import cn.jeeweb.bbs.aspectj.annotation.Log;
+import cn.jeeweb.bbs.aspectj.enums.LogType;
+import cn.jeeweb.bbs.modules.sys.entity.Menu;
+import cn.jeeweb.bbs.modules.sys.service.IMenuService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("${jeeweb.admin.url.prefix}/sys/menu")
@@ -68,7 +65,7 @@ public class MenuController extends BaseBeanController<Menu> {
     @Log(logType = LogType.SELECT)
     @RequiresMethodPermissions("list")
     public void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
-                          HttpServletResponse response) throws IOException {
+                         HttpServletResponse response) throws IOException {
         EntityWrapper<Menu> entityWrapper = new EntityWrapper<>(entityClass);
         propertyPreFilterable.addQueryProperty("id");
         // 预处理
@@ -89,7 +86,7 @@ public class MenuController extends BaseBeanController<Menu> {
     @Log(logType = LogType.INSERT)
     @RequiresMethodPermissions("add")
     public Response add(Menu entity, BindingResult result,
-                           HttpServletRequest request, HttpServletResponse response) {
+                        HttpServletRequest request, HttpServletResponse response) {
         // 验证错误
         this.checkError(entity,result);
         menuService.insert(entity);
@@ -183,9 +180,9 @@ public class MenuController extends BaseBeanController<Menu> {
     @Log(logType = LogType.SELECT)
     @RequiresMethodPermissions("list")
     public void ajaxTreeList(Queryable queryable,
-                              @RequestParam(value = "nodeid", required = false, defaultValue = "") String nodeid,
-                              @RequestParam(value = "async", required = false, defaultValue = "false") boolean async,
-                              HttpServletRequest request, HttpServletResponse response, PropertyPreFilterable propertyPreFilterable)
+                             @RequestParam(value = "nodeid", required = false, defaultValue = "") String nodeid,
+                             @RequestParam(value = "async", required = false, defaultValue = "false") boolean async,
+                             HttpServletRequest request, HttpServletResponse response, PropertyPreFilterable propertyPreFilterable)
             throws IOException {
         EntityWrapper<Menu> entityWrapper = new EntityWrapper<Menu>(entityClass);
         entityWrapper.setTableAlias("t");
@@ -223,8 +220,8 @@ public class MenuController extends BaseBeanController<Menu> {
     @Log(logType = LogType.SELECT)
     @RequiresMethodPermissions("list")
     public void bootstrapTreeData(Queryable queryable,
-                                   @RequestParam(value = "nodeid", required = false, defaultValue = "") String nodeid, HttpServletRequest request,
-                                   HttpServletResponse response, PropertyPreFilterable propertyPreFilterable) throws IOException {
+                                  @RequestParam(value = "nodeid", required = false, defaultValue = "") String nodeid, HttpServletRequest request,
+                                  HttpServletResponse response, PropertyPreFilterable propertyPreFilterable) throws IOException {
         EntityWrapper<Menu> entityWrapper = new EntityWrapper<Menu>(entityClass);
         entityWrapper.setTableAlias("t.");
         List<Menu> treeNodeList = menuService.selectTreeList(queryable, entityWrapper);
@@ -233,6 +230,28 @@ public class MenuController extends BaseBeanController<Menu> {
         SerializeFilter filter = propertyPreFilterable.constructFilter(entityClass);
         String content = JSON.toJSONString(bootstrapTreeNodes, filter);
         StringUtils.printJson(response, content);
+    }
+
+    @GetMapping("{id}/generate/button")
+    public ModelAndView generateButton(Model model) {
+        model.addAttribute("data",new Menu());
+        model.addAttribute("parentPermission","");
+        model.addAttribute("permissions","");
+        return displayModelAndView ("generate_button");
+    }
+    @PostMapping("{id}/generate/button")
+    @Log(logType = LogType.OTHER, title = "生成按钮")
+    @RequiresMethodPermissions("generate:button")
+    public Response generateButton(@PathVariable("id") String id,
+                                   @RequestParam("parentPermission") String parentPermission,
+                                   @RequestParam("permissions") String[] permissions) {
+        String[] permissionTitles = new String[permissions.length];
+        for (int i = 0; i < permissions.length; i++) {
+            String permissionTitle = DictUtils.getDictLabel(permissions[i],"permissionTypes","");
+            permissionTitles[i] = permissionTitle;
+        }
+        menuService.generateButton(id, parentPermission, permissions, permissionTitles);
+        return Response.ok("生成成功");
     }
 
 }

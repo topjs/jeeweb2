@@ -1,9 +1,5 @@
 package cn.jeeweb.web.modules.sys.controller;
 
-import cn.jeeweb.web.aspectj.annotation.Log;
-import cn.jeeweb.web.aspectj.enums.LogType;
-import cn.jeeweb.web.modules.sys.entity.UserOnline;
-import cn.jeeweb.web.security.shiro.session.mgt.OnlineSession;
 import cn.jeeweb.common.http.Response;
 import cn.jeeweb.common.mvc.annotation.ViewPrefix;
 import cn.jeeweb.common.mvc.controller.BaseController;
@@ -16,6 +12,10 @@ import cn.jeeweb.common.security.shiro.authz.annotation.RequiresMethodPermission
 import cn.jeeweb.common.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.common.security.shiro.session.SessionDAO;
 import cn.jeeweb.common.utils.StringUtils;
+import cn.jeeweb.web.aspectj.annotation.Log;
+import cn.jeeweb.web.aspectj.enums.LogType;
+import cn.jeeweb.web.modules.sys.entity.UserOnline;
+import cn.jeeweb.web.security.shiro.session.mgt.OnlineSession;
 import com.alibaba.fastjson.JSON;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +77,7 @@ public class UserOnlineController extends BaseController{
 	@RequestMapping(value = "ajaxList", method = { RequestMethod.GET, RequestMethod.POST })
 	@PageableDefaults(sort = "id=desc")
 	@Log(title = "在线用户",logType = LogType.SELECT)
+	@RequiresMethodPermissions("list")
 	private void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
 						  HttpServletResponse response) throws IOException {
 		// 预处理
@@ -88,6 +89,7 @@ public class UserOnlineController extends BaseController{
 	@RequestMapping("/forceLogout")
 	@ResponseBody
 	@Log(title = "用户强制退出")
+	@RequiresMethodPermissions("force:logout")
 	public Response forceLogout(@RequestParam(value = "ids") String[] ids) {
 		for (String id : ids) {
 			OnlineSession onlineSession = (OnlineSession) sessionDAO.readSession(id);

@@ -6,6 +6,7 @@ import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
 import cn.afterturn.easypoi.view.PoiBaseView;
 import cn.jeeweb.common.http.DuplicateValid;
 import cn.jeeweb.common.http.ValidResponse;
+import cn.jeeweb.common.utils.DateUtils;
 import cn.jeeweb.web.aspectj.annotation.Log;
 import cn.jeeweb.web.aspectj.enums.LogType;
 import cn.jeeweb.web.modules.sys.entity.*;
@@ -300,7 +301,7 @@ public class UserController extends BaseBeanController<User> {
 		map.put(NormalExcelConstants.DATA_LIST, userList);
 		map.put(NormalExcelConstants.CLASS, User.class);
 		map.put(NormalExcelConstants.PARAMS, params);
-		map.put("fileName",title);
+		map.put("fileName",title+ "-" + DateUtils.getDateTime());
 		PoiBaseView.render(map, request, response, NormalExcelConstants.EASYPOI_EXCEL_VIEW);
 	}
 

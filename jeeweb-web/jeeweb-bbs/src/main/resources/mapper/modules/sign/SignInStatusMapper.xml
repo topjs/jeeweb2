@@ -27,6 +27,6 @@
         <include refid="Base_Column_List" />
         from sign_in_status sis
         LEFT JOIN sys_user u on sis.sign_uid=u.id
-        ORDER BY signDay desc
+        ORDER BY lastSignTime,signDay desc
     </select>
 </mapper>

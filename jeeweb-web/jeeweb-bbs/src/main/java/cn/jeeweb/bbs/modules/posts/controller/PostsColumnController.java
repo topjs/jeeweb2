@@ -1,16 +1,21 @@
 package cn.jeeweb.bbs.modules.posts.controller;
 
+import cn.jeeweb.bbs.aspectj.annotation.Log;
+import cn.jeeweb.bbs.aspectj.enums.LogType;
 import cn.jeeweb.bbs.common.bean.ResponseError;
 import cn.jeeweb.bbs.modules.posts.service.IPostsColumnService;
 import cn.jeeweb.bbs.modules.posts.entity.PostsColumn;
 import cn.jeeweb.common.http.PageResponse;
 import cn.jeeweb.common.http.Response;
+import cn.jeeweb.common.mvc.annotation.ViewPrefix;
 import cn.jeeweb.common.mvc.controller.BaseBeanController;
 import cn.jeeweb.common.mybatis.mvc.wrapper.EntityWrapper;
 import cn.jeeweb.common.query.annotation.PageableDefaults;
 import cn.jeeweb.common.query.data.PropertyPreFilterable;
 import cn.jeeweb.common.query.data.Queryable;
 import cn.jeeweb.common.query.utils.QueryableConvertUtils;
+import cn.jeeweb.common.security.shiro.authz.annotation.RequiresMethodPermissions;
+import cn.jeeweb.common.security.shiro.authz.annotation.RequiresPathPermission;
 import cn.jeeweb.common.utils.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializeFilter;
@@ -39,15 +44,19 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("${jeeweb.admin.url.prefix}/posts/posts/column")
+@RequiresPathPermission("posts:posts:column")
+@ViewPrefix("modules/posts/posts/column")
+@Log(title = "主题分类")
 public class PostsColumnController extends BaseBeanController<PostsColumn> {
 
     @Autowired
     private IPostsColumnService postsColumnService;
 
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
+    @RequiresMethodPermissions("view")
     public ModelAndView list(Model model, HttpServletRequest request, HttpServletResponse response) {
-        return new ModelAndView ("modules/posts/posts/column/list");
+        return displayModelAndView("list");
     }
 
     /**
@@ -59,7 +68,9 @@ public class PostsColumnController extends BaseBeanController<PostsColumn> {
      */
     @RequestMapping(value = "ajaxList", method = { RequestMethod.GET, RequestMethod.POST })
     @PageableDefaults(sort = "sort=desc")
-    private void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
+    @Log(logType = LogType.SELECT)
+    @RequiresMethodPermissions("list")
+    public void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
         EntityWrapper<PostsColumn> entityWrapper = new EntityWrapper<>(entityClass);
         entityWrapper.orderBy("sort");
@@ -71,58 +82,46 @@ public class PostsColumnController extends BaseBeanController<PostsColumn> {
         String content = JSON.toJSONString(pagejson, filter);
         StringUtils.printJson(response,content);
     }
-    @RequestMapping(value = "create", method = RequestMethod.GET)
+
+    @GetMapping(value = "add")
     public ModelAndView add(Model model, HttpServletRequest request, HttpServletResponse response) {
         model.addAttribute("data", new PostsColumn());
-        return new ModelAndView ("modules/posts/posts/column/edit");
+        return  displayModelAndView ("edit");
     }
 
     @PostMapping("add")
+    @Log(logType = LogType.INSERT)
+    @RequiresMethodPermissions("add")
     public Response add(PostsColumn entity, BindingResult result,
                            HttpServletRequest request, HttpServletResponse response) {
-        return doSave(entity, request, response, result);
+        // 验证错误
+        this.checkError(entity,result);
+        postsColumnService.insert(entity);
+        return Response.ok("添加成功");
     }
 
-    @RequestMapping(value = "{id}/update", method = RequestMethod.GET)
+    @GetMapping(value = "{id}/update")
     public ModelAndView update(@PathVariable("id") String id, Model model, HttpServletRequest request,
                               HttpServletResponse response) {
         PostsColumn entity = postsColumnService.selectById(id);
         model.addAttribute("data", entity);
-        return new ModelAndView ("modules/posts/posts/column/edit");
+        return displayModelAndView ("edit");
     }
 
     @PostMapping("{id}/update")
+    @Log(logType = LogType.UPDATE)
+    @RequiresMethodPermissions("update")
     public Response update(PostsColumn entity, BindingResult result,
                                  HttpServletRequest request, HttpServletResponse response) {
-        return doSave(entity, request, response, result);
+        // 验证错误
+        this.checkError(entity,result);
+        postsColumnService.insertOrUpdate(entity);
+        return Response.ok("更新成功");
     }
 
-    @PostMapping("/save")
-    public Response doSave(PostsColumn entity, HttpServletRequest request, HttpServletResponse response,
-                                 BindingResult result) {
-        if (hasError(entity, result)) {
-            // 错误提示
-            String errorMsg = errorMsg(result);
-            if (!StringUtils.isEmpty(errorMsg)) {
-                return Response.error(ResponseError.NORMAL_ERROR,errorMsg);
-            } else {
-                return Response.error(ResponseError.NORMAL_ERROR,"保存失败");
-            }
-        }
-        try {
-            if (StringUtils.isEmpty(entity.getId())) {
-                postsColumnService.insert(entity);
-            } else {
-                postsColumnService.insertOrUpdate(entity);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Response.error(ResponseError.NORMAL_ERROR,"保存失败!<br />原因:" + e.getMessage());
-        }
-        return Response.ok("保存成功");
-    }
-
-    @GetMapping("{id}/delete")
+    @PostMapping("{id}/delete")
+    @Log(logType = LogType.DELETE)
+    @RequiresMethodPermissions("delete")
     public Response delete(@PathVariable("id") String id) {
         try {
             postsColumnService.deleteById(id);

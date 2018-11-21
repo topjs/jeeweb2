@@ -19,6 +19,92 @@ JeeWeb主要定位于企业快速开发平台建设，已内置很多优秀的�
 
 JeeWeb的开发方式采用（ **代码生成器快速设计生成代码->手工完善逻辑->丰富模板标签快速前端开发** ），可以快速协助java开发人员解决60%的重复工作，让开发人员更多关注业务逻辑的实现，框架使用前端模板标签，解放JAVA开发人员的开发压力，提高开发效率，为企业节省项目研发成本，减少开发周期。
 
+后台框架演示（支持两种前端样式自由切换）
+-----------------------------------
+
+<table>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/205829_298a4931_1394985.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/205840_53fff866_1394985.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/205902_2c5e0ede_1394985.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/205923_03af182c_1394985.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/205936_7eb60e58_1394985.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/205947_3e0941f1_1394985.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/205956_a5a055d6_1394985.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210005_feaea463_1394985.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210017_afad013d_1394985.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210029_f3eed7e9_1394985.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210043_c530183c_1394985.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210054_6a4aa410_1394985.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210126_bda298ab_1394985.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210134_a7a653e0_1394985.png"/></td>
+    </tr>
+</table>
+
+论坛演示
+-----------------------------------
+
+<table>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210606_84eb305d_1394985.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210615_22830e89_1394985.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210626_4a3c8940_1394985.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210636_9ad21978_1394985.png/></td>
+    </tr>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210648_c3cfd6b4_1394985.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210658_591c8f45_1394985.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210721_88341443_1394985.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210728_3d84e048_1394985.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210807_4d1e4fde_1394985.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210746_a03f24f9_1394985.png"/></td>
+    </tr>
+</table>
+
+前后端分离演示
+-----------------------------------
+
+<table>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/211909_7d6bdc76_1394985.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/211917_afbb33bc_1394985.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/211925_83b35690_1394985.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/211935_736c9510_1394985.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/211947_daf87280_1394985.png"/></td>
+        <td><img src=""/></td>
+    </tr>
+    <tr>
+        <td><img src=""/></td>
+        <td><img src=""/></td>
+    </tr>
+    <tr>
+        <td><img src=""/></td>
+        <td><img src=""/></td>
+    </tr>
+</table>
+
 JeeWeb 技术特点
 -----------------------------------
 JeeWeb使用目前流程的WEB开发架构技术，如 **SpringBoot,Mybatis, Hibernate,Apache Shiro, Disruptor , ehcache, Jquery ,BootStrap** 等等，支持多种数据库MySQL, Oracle, sqlserver等。  **分层设计：使用分层设计，分为dao，service，Controller，view层，层次清楚，低耦合，高内聚。**  
@@ -128,36 +214,12 @@ jeeweb
 │    │ 
 │    ├─jeeweb-bbs Jeeweb官方论坛代码模块
 │    │ 
+│    ├─jeeweb-vue 前后端分离后端模块
+│    │ 
 │    └─jeeweb-generator  代码生成器模块
 │
 ```
-系统演示
------------------------------------
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233138_66acc47c_1394985.png "在这里输入图片标题")
 
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233150_79627fa7_1394985.png "在这里输入图片标题")
-
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233200_33d385db_1394985.png "在这里输入图片标题")
-
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233211_5e7fc693_1394985.png "在这里输入图片标题")
-
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233222_8ab40914_1394985.png "在这里输入图片标题")
-
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233239_ebb4d8bb_1394985.png "在这里输入图片标题")
-
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233252_11c11f7d_1394985.png "在这里输入图片标题")
-
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233303_da10ce13_1394985.png "在这里输入图片标题")
-
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233314_7bcc9728_1394985.png "在这里输入图片标题")
-
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233324_44fbe21c_1394985.png "在这里输入图片标题")
-
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233335_358d1208_1394985.png "在这里输入图片标题")
-
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233347_79912823_1394985.png "在这里输入图片标题")
-
-![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233356_3b2a0c61_1394985.png "在这里输入图片标题")
 代码示例
 -----------------------------------
 ###  [1].GRID列表

@@ -63,7 +63,7 @@ JeeWeb的开发方式采用（ **代码生成器快速设计生成代码->手工
     </tr>
     <tr>
         <td><img src="https://images.gitee.com/uploads/images/2018/1121/210626_4a3c8940_1394985.png"/></td>
-        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210636_9ad21978_1394985.png/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/210636_9ad21978_1394985.png"/></td>
     </tr>
     <tr>
         <td><img src="https://images.gitee.com/uploads/images/2018/1121/210648_c3cfd6b4_1394985.png"/></td>

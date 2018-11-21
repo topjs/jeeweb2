@@ -88,11 +88,11 @@ JeeWeb的开发方式采用（ **代码生成器快速设计生成代码->手工
         <td><img src="https://images.gitee.com/uploads/images/2018/1121/211917_afbb33bc_1394985.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://images.gitee.com/uploads/images/2018/1121/211925_83b35690_1394985.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2018/1121/211947_daf87280_1394985.png"/></td>
         <td><img src="https://images.gitee.com/uploads/images/2018/1121/211935_736c9510_1394985.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://images.gitee.com/uploads/images/2018/1121/211947_daf87280_1394985.png"/></td>
+        <td><img src=""/></td>
         <td><img src=""/></td>
     </tr>
     <tr>

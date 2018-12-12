@@ -68,6 +68,8 @@ management:
         enabled: false
 
 #后台账号
+jeeweb:
+  staticPath: /static
 admin:
  url:
   prefix: /admin

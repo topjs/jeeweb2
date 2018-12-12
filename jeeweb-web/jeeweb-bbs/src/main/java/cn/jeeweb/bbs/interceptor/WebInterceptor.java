@@ -7,10 +7,12 @@ import cn.jeeweb.bbs.utils.ThemeUtils;
 import cn.jeeweb.bbs.utils.UrlUtils;
 import cn.jeeweb.common.utils.CookieUtils;
 import cn.jeeweb.common.utils.MessageUtils;
+import cn.jeeweb.common.utils.SpringContextHolder;
 import cn.jeeweb.common.utils.StringUtils;
 import cn.jeeweb.bbs.utils.UserUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
@@ -29,12 +31,16 @@ public class WebInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        // 静态资源目录
+        Environment env = SpringContextHolder.getBean(Environment.class);
+        String staticPath = env.getProperty("jeeweb.staticPath");
+        String adminPath = env.getProperty("jeeweb.admin.url.prefix");
         //加入公用参数的
         String ctx = request.getServletContext().getContextPath();
         request.setAttribute("ctx",ctx);
-        request.setAttribute("adminPath",ctx + "/admin");
+        request.setAttribute("adminPath",ctx + adminPath);
         request.setAttribute("theme", ThemeUtils.getTheme());
-        request.setAttribute("staticPath",ctx + "/static");
+        request.setAttribute("staticPath",staticPath);
         request.setAttribute("platformName", MessageUtils.getMessage("platform.name"));
         request.setAttribute("platformCopyright", MessageUtils.getMessage("platform.copyright"));
         request.setAttribute("platformVersion", MessageUtils.getMessage("platform.version"));

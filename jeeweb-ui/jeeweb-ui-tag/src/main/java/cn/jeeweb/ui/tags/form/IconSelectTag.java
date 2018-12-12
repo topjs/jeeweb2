@@ -7,6 +7,7 @@ import cn.jeeweb.beetl.tags.annotation.BeetlTagName;
 import cn.jeeweb.beetl.tags.exception.BeetlTagException;
 import cn.jeeweb.beetl.tags.form.HiddenInputTag;
 import cn.jeeweb.beetl.tags.form.TagWriter;
+import cn.jeeweb.ui.tags.form.support.FreemarkerFormTagHelper;
 import cn.jeeweb.ui.tags.html.manager.HtmlComponentManager;
 import cn.jeeweb.common.utils.SpringContextHolder;
 import cn.jeeweb.common.utils.StringUtils;
@@ -53,13 +54,7 @@ public class IconSelectTag extends HiddenInputTag {
 	}
 
 	private void writeFragment(TagWriter tagWriter) throws BeetlTagException {
-		Map<String, Object> rootMap = new HashMap<String, Object>();
-		String ctx = (String)this.ctx.globalVar.get("ctxPath");
-		String adminPath = ctx + "";
-		String staticPath = ctx + "/static";
-		rootMap.put("ctx", ctx);
-		rootMap.put("adminPath", adminPath);
-		rootMap.put("staticPath", staticPath);
+		Map<String, Object> rootMap = FreemarkerFormTagHelper.getTagStatic(this, this.ctx);
 		rootMap.put("name", getPath());
 		rootMap.put("genField", genField);
 		rootMap.put("width", width);

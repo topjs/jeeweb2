@@ -59,7 +59,6 @@ public class ExampleController extends BaseBeanController<Example> {
      * @throws IOException
      */
     @RequestMapping(value = "ajaxList", method = { RequestMethod.GET, RequestMethod.POST })
-    @PageableDefaults(sort = "id=desc")
     @RequiresMethodPermissions("list")
     private void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
                           HttpServletResponse response) throws IOException {

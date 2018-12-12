@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import cn.jeeweb.beetl.tags.TagSupport;
 import cn.jeeweb.beetl.tags.exception.BeetlTagException;
+import cn.jeeweb.ui.tags.form.support.FreemarkerFormTagHelper;
 import cn.jeeweb.ui.tags.html.manager.HtmlComponentManager;
 import cn.jeeweb.common.utils.SpringContextHolder;
 import cn.jeeweb.common.utils.StringUtils;
@@ -118,13 +119,7 @@ public abstract class AbstractHtmlTag extends TagSupport {
 	}
 
 	private String parseContent(String content) throws TemplateException, IOException {
-		Map<String, Object> rootMap = new HashMap<String, Object>();
-		String ctx = (String)this.ctx.globalVar.get("ctxPath");
-		String adminPath = ctx + "";
-		String staticPath = ctx + "/static";
-		rootMap.put("ctx", ctx);
-		rootMap.put("adminPath", adminPath);
-		rootMap.put("staticPath", staticPath);
+		Map<String, Object> rootMap = FreemarkerFormTagHelper.getTagStatic(this, this.ctx);
 		//文件上传
 		// PropertiesUtil propertiesUtil = new PropertiesUtil("upload.properties");
 		// String ueditorUploadUrl= propertiesUtil.getString("upload.ueditor.url");

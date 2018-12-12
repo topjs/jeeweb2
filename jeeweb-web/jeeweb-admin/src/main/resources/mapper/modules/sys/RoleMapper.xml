@@ -18,7 +18,7 @@
     r.id, 
     r.name, 
     r.code, 
-    r.is_sys, 
+    r.is_sys,
     r.usable, 
     r.create_date, 
     r.update_date, 

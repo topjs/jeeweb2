@@ -76,7 +76,7 @@ public class PostsCommentController extends BaseBeanController<PostsComment> {
      * @throws IOException
      */
     @RequestMapping(value = "ajaxList", method = { RequestMethod.GET, RequestMethod.POST })
-    @PageableDefaults(sort = "id=desc")
+
     private void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
         EntityWrapper<PostsComment> entityWrapper = new EntityWrapper<>(entityClass);

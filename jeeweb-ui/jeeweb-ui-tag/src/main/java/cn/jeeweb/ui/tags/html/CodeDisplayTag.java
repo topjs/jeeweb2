@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.jeeweb.beetl.tags.annotation.BeetlTagName;
+import cn.jeeweb.ui.tags.form.support.FreemarkerFormTagHelper;
 import cn.jeeweb.ui.tags.html.manager.HtmlComponentManager;
 import cn.jeeweb.common.utils.SpringContextHolder;
 import cn.jeeweb.common.utils.StringUtils;
@@ -20,13 +21,7 @@ public class CodeDisplayTag extends DisplayTag {
 	@Override
 	protected String getContent() {
 		String bodyContent = super.getContent();
-		Map<String, Object> rootMap = new HashMap<String, Object>();
-		String ctx = (String)this.ctx.globalVar.get("ctxPath");
-		String adminPath = ctx + "";
-		String staticPath = ctx + "/static";
-		rootMap.put("ctx", ctx);
-		rootMap.put("adminPath", adminPath);
-		rootMap.put("staticPath", staticPath);
+		Map<String, Object> rootMap = FreemarkerFormTagHelper.getTagStatic(this, this.ctx);
 		rootMap.put("codeType", codeType.toLowerCase());
 		rootMap.put("bodyContent", bodyContent);
 		HtmlComponentManager htmlComponentManager = SpringContextHolder.getApplicationContext()

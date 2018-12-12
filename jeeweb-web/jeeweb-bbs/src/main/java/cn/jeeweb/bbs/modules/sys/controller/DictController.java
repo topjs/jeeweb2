@@ -71,7 +71,6 @@ public class DictController extends BaseBeanController<Dict> {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "ajaxList", method = { RequestMethod.GET, RequestMethod.POST })
-	@PageableDefaults(sort = "id=desc")
 	@Log(logType = LogType.SELECT)
 	@RequiresMethodPermissions("list")
 	public void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,

@@ -239,9 +239,9 @@ public class TableController extends BaseBeanController<Table> {
     public ModelAndView generateCode(@PathVariable("id") String id, Model model, HttpServletRequest request,
                                HttpServletResponse response) {
         Table table = tableService.selectById(id);
-        if (!table.getSyncDatabase()) {
+       /*if (!table.getSyncDatabase()) {
             return displayModelAndView("un_sync_database");
-        }
+        }*/
         //获得模版方案列表
         List<TemplateScheme> templateSchemes=templateSchemeService.selectList(new EntityWrapper<TemplateScheme>(TemplateScheme.class));
         request.setAttribute("templateSchemes",templateSchemes);

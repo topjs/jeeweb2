@@ -75,7 +75,6 @@ public class UserOnlineController extends BaseController{
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "ajaxList", method = { RequestMethod.GET, RequestMethod.POST })
-	@PageableDefaults(sort = "id=desc")
 	@Log(title = "在线用户",logType = LogType.SELECT)
 	@RequiresMethodPermissions("list")
 	private void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,

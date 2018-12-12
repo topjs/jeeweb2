@@ -64,7 +64,6 @@ public class AttachmentController extends BaseBeanController<Attachment> {
      * @throws IOException
      */
     @RequestMapping(value = "ajaxList", method = { RequestMethod.GET, RequestMethod.POST })
-    @PageableDefaults(sort = "id=desc")
     private void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
         EntityWrapper<Attachment> entityWrapper = new EntityWrapper<Attachment>(entityClass);

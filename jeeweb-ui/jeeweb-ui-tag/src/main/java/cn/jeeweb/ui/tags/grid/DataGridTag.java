@@ -333,6 +333,10 @@ public class DataGridTag extends AbstractGridHtmlTag {
 		if (staticAttributes != null) {
 			staticAttributes.clear();
 		}
+		// 树的时候不现实分页
+		if (treeGrid){
+			this.pageable = Boolean.FALSE;
+		}
 		if (StringUtils.isEmpty(baseUrl) && !StringUtils.isEmpty(url)) {
 			this.baseUrl = url.substring(0, url.lastIndexOf("/"));
 		}
@@ -379,14 +383,7 @@ public class DataGridTag extends AbstractGridHtmlTag {
 		if (async) {
 			this.url = this.url + "&async=1";
 		}
-		Map<String, Object> rootMap = new HashMap<String, Object>();
-		String ctx = (String)this.ctx.globalVar.get("ctxPath");
-		String adminPath = ctx + "";
-		String staticPath = ctx + "/static";
-		rootMap.put("appPath", ctx);
-		rootMap.put("adminPath", adminPath);
-		rootMap.put("staticPath", staticPath);
-		rootMap.put("staticPath", staticPath);
+		Map<String, Object> rootMap = FreemarkerFormTagHelper.getTagStatic(this, this.ctx);
 		if (datas != null) {
 			String initDatas = "";
 			List dataList = (List) datas;
@@ -417,8 +414,6 @@ public class DataGridTag extends AbstractGridHtmlTag {
 		rootMap.put("queryList", queryList);
 		rootMap.put("toobarList", toobarList);
 		rootMap.put("buttonList", buttonList);
-		Map<String, Object> staticMap = FreemarkerFormTagHelper.getTagStatic(this, this.ctx);
-		rootMap.putAll(staticMap);
 		HtmlComponentManager htmlComponentManager = SpringContextHolder.getApplicationContext()
 				.getBean(HtmlComponentManager.class);
 		String fragment = htmlComponentManager.getFragmentComponent(gridtype + "-grid", rootMap);

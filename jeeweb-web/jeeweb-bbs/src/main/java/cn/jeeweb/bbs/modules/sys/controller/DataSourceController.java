@@ -68,7 +68,6 @@ public class DataSourceController extends BaseBeanController<DataSource> {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "ajaxList", method = { RequestMethod.GET, RequestMethod.POST })
-	@PageableDefaults(sort = "id=desc")
 	public void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
 						  HttpServletResponse response) throws IOException {
 		EntityWrapper<DataSource> entityWrapper = new EntityWrapper<>(entityClass);

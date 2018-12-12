@@ -2,7 +2,9 @@ package cn.jeeweb.ui.tags.form.support;
 
 import cn.jeeweb.common.utils.ObjectUtils;
 import cn.jeeweb.common.utils.Reflections;
+import cn.jeeweb.common.utils.SpringContextHolder;
 import org.beetl.core.Context;
+import org.springframework.core.env.Environment;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -20,10 +22,16 @@ public class FreemarkerFormTagHelper {
 	}
 
 	public Map<String, Object> initFreeMarkerMap(Object tag, Context pageContext) {
-		Map<String, Object> rootMap = new HashMap<String, Object>();
+		Map<String, Object> rootMap = new HashMap<>();
 		String ctx = (String)pageContext.globalVar.get("ctxPath");
+		// 静态资源目录
+		Environment env = SpringContextHolder.getBean(Environment.class);
 		String adminPath = ctx + "";
 		String staticPath = ctx + "/static";
+		if (env != null){
+			staticPath = env.getProperty("jeeweb.staticPath");
+			adminPath = env.getProperty("jeeweb.admin.url.prefix");
+		}
 		rootMap.put("ctx", ctx);
 		rootMap.put("adminPath", adminPath);
 		rootMap.put("staticPath", staticPath);

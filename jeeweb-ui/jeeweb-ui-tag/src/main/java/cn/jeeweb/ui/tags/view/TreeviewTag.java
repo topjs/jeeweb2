@@ -100,12 +100,6 @@ public class TreeviewTag extends AbstractGridHtmlTag {
 
 	private void writeFragment() throws BeetlTagException {
 		Map<String, Object> rootMap = new HashMap<String, Object>();
-		String ctx = (String)this.ctx.globalVar.get("ctxPath");
-		String adminPath = ctx + "";
-		String staticPath = ctx + "/static";
-		rootMap.put("appPath", ctx);
-		rootMap.put("adminPath", adminPath);
-		rootMap.put("staticPath", staticPath);
 		if (datas != null) {
 			String initDatas = "";
 			List dataList = (List) datas;

@@ -57,7 +57,7 @@ public class PostsCommentPraiseController extends BaseBeanController<PostsCommen
      * @throws IOException
      */
     @RequestMapping(value = "ajaxList", method = { RequestMethod.GET, RequestMethod.POST })
-    @PageableDefaults(sort = "id=desc")
+
     private void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
         EntityWrapper<PostsCommentPraise> entityWrapper = new EntityWrapper<>(entityClass);

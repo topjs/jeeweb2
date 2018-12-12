@@ -7,6 +7,7 @@ import cn.jeeweb.beetl.tags.annotation.BeetlTagName;
 import cn.jeeweb.beetl.tags.exception.BeetlTagException;
 import cn.jeeweb.beetl.tags.form.TagWriter;
 import cn.jeeweb.beetl.tags.form.TextareaTag;
+import cn.jeeweb.ui.tags.form.support.FreemarkerFormTagHelper;
 import cn.jeeweb.ui.tags.html.manager.HtmlComponentManager;
 import cn.jeeweb.common.utils.SpringContextHolder;
 import cn.jeeweb.common.utils.StringUtils;
@@ -120,13 +121,7 @@ public class EditorTag extends TextareaTag {
 	}
 
 	private void writeFragment(TagWriter tagWriter) throws BeetlTagException {
-		Map<String, Object> rootMap = new HashMap<String, Object>();
-		String ctx = (String)this.ctx.globalVar.get("ctxPath");
-		String adminPath = ctx + "";
-		String staticPath = ctx + "/static";
-		rootMap.put("ctx", ctx);
-		rootMap.put("adminPath", adminPath);
-		rootMap.put("staticPath", staticPath);
+		Map<String, Object> rootMap = FreemarkerFormTagHelper.getTagStatic(this, this.ctx);
 		rootMap.put("height", editorHeight);
 		rootMap.put("width", editorWidth);
 		rootMap.put("editorSettingCallback", editorSettingCallback);

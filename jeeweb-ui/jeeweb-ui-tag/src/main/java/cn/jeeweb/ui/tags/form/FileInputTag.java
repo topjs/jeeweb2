@@ -10,6 +10,7 @@ import cn.jeeweb.beetl.tags.exception.BeetlTagException;
 import cn.jeeweb.beetl.tags.form.HiddenInputTag;
 import cn.jeeweb.common.utils.*;
 import cn.jeeweb.beetl.tags.form.TagWriter;
+import cn.jeeweb.ui.tags.form.support.FreemarkerFormTagHelper;
 import cn.jeeweb.ui.tags.html.manager.HtmlComponentManager;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -290,13 +291,7 @@ public class FileInputTag extends HiddenInputTag {
 			autoUpload = Boolean.FALSE;
 		}
 		//文件上传
-		Map<String, Object> rootMap = new HashMap<String, Object>();
-		String ctx = (String)this.ctx.globalVar.get("ctxPath");
-		String adminPath = ctx + "";
-		String staticPath = ctx + "/static";
-		rootMap.put("ctx", ctx);
-		rootMap.put("adminPath", adminPath);
-		rootMap.put("staticPath", staticPath);
+		Map<String, Object> rootMap = FreemarkerFormTagHelper.getTagStatic(this, this.ctx);
 		rootMap.put("uploadUrl", uploadUrl);
 		rootMap.put("deleteUrl", deleteUrl);
 		rootMap.put("initUrl", initUrl);

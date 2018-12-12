@@ -38,7 +38,7 @@ public class UserOnlineController extends BaseController{
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "list", method = { RequestMethod.GET, RequestMethod.POST })
-	@PageableDefaults(sort = "id=desc")
+
 	@Log(logType = LogType.SELECT)
 	@RequiresMethodPermissions("list")
 	public void list() throws IOException {

@@ -68,7 +68,6 @@ public class TemplateSchemeController extends BaseBeanController<TemplateScheme>
     }
 
     @RequestMapping(value = "ajaxList", method = { RequestMethod.GET, RequestMethod.POST })
-    @PageableDefaults(sort = "id=desc")
     private void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
         EntityWrapper<TemplateScheme> entityWrapper = new EntityWrapper<TemplateScheme>(entityClass);

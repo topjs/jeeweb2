@@ -51,8 +51,8 @@ public class DataGridTag extends AbstractGridHtmlTag {
 	private Boolean multiselect = true;// 是否多选
 	private Boolean multiSort = Boolean.TRUE;// 是否多列排序
 	private Boolean sortable = Boolean.TRUE;
-	private String sortname = "id";
-	private String sortorder = "asc";
+	private String sortname = "";
+	private String sortorder = "";
 	private Boolean showQueryLabel = Boolean.TRUE;
 	private String onSelectRow = "";
 	private int page = 1;// 页码开始

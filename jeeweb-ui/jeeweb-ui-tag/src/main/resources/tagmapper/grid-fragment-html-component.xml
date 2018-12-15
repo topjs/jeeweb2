@@ -182,8 +182,10 @@
                 <#if sortable??&&sortable>
                 multiSort: ${multiSort?string("true","false")},
 			    sortable: true,
-			    sortname: "${sortname}",
+			    <#if sortname??&&sortname!=''>
+                sortname: "${sortname}",
 			    sortorder: "${sortorder}",
+                </#if>
 			    </#if>
 			    multiselect: ${multiselect?string("true","false")},
 			    //width: ${width},

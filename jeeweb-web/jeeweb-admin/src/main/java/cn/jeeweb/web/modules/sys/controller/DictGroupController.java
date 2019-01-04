@@ -76,7 +76,7 @@ public class DictGroupController extends BaseBeanController<DictGroup> {
 
 	@PostMapping("add")
 	@Log(logType = LogType.INSERT)
-	@RequiresMethodPermissions("group:create")
+	@RequiresMethodPermissions("group:add")
 	public Response add(DictGroup entity, BindingResult result,
 						   HttpServletRequest request, HttpServletResponse response) {
 		// 验证错误
